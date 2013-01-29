@@ -1,0 +1,8 @@
+## Interface: 1500
+## Title: Rauen's MapInfo
+## Author: Rauen
+## Notes: MapInfo
+## SavedVariables: MapInfo_Config
+## Dependencies: Rauen_ConfigMenu, Rauen_Library
+MapInfo.xml
+miUI.xml

@@ -1,0 +1,6 @@
+## Interface: 4150
+## Title: Rauen's MailBox
+## Author: Rauen
+## Notes: Version 4150.1
+## SavedVariables: MailBox_Config
+MailBox.xml

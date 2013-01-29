@@ -1,0 +1,36 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
+
+	<Script file="QuestShow.lua"/>
+
+	<Frame name="Frame_QuestShow" hidden="true">
+		<Scripts>
+			<OnLoad>
+				QuestShow_OnLoad();
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Button name="Button_QuestShow" inherits="UIPanelButtonTemplate" parent="QuestLogFrame" text="QuestShow_ButtonTitle">
+		<Size>
+			<AbsDimension x="110" y="21"/>
+		</Size>
+		<Anchors>
+			<Anchor point="BOTTOM" relativeTo="QuestLogFrame" relativePoint="TOP">
+				<Offset>
+					<AbsDimension x="0" y="-62"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				QuestShow_Show();
+			</OnClick>
+			<OnEnter>
+				GameTooltip_AddNewbieTip(QuestShow_ButtonTitle, 1.0, 1.0, 1.0, QuestShow_Tooltip, 1);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</Button>
+
+</Ui>

@@ -1,15 +1,15 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xsi:schemaLocation="http://www.blizzard.com/wow/ui/"> 
 
-	<Script file="pfUI.lua"/>
+	<Script file="kUI.lua"/>
 	
 	<!-- Templates -->
-	<CheckButton name="pfUI_CheckTemplate" inherits="UICheckButtonTemplate" virtual="true">
+	<CheckButton name="kUI_CheckTemplate" inherits="UICheckButtonTemplate" virtual="true">
 		<HitRectInsets>
 			<AbsInset left="0" right="-100" top="0" bottom="0"/>
 		</HitRectInsets>
 		<Scripts>
 			<OnClick>
-				pfUI_CheckButtonOnClick();
+				kUI_CheckButtonOnClick();
 			</OnClick>
 			<OnEnter>
 				if ( this.tooltipText ) then
@@ -23,7 +23,7 @@
 			</OnLeave>
 		</Scripts>
 	</CheckButton>
-	<Frame name="pfUI_BoxTemplate" virtual="true">
+	<Frame name="kUI_BoxTemplate" virtual="true">
 		<Layers>
 			<Layer level="BACKGROUND">
 				<FontString name="$parentTitle" inherits="GameFontHighlight">
@@ -55,27 +55,7 @@
 			</OnLoad>
 		</Scripts>
 	</Frame>
-	<Frame name="pfUI_DropDownTemplate" inherits="UIDropDownMenuTemplate" enableMouse="true" virtual="true">
-		<Layers>
-			<Layer level="BACKGROUND">
-				<FontString name="$parentLabel" inherits="GameFontNormalSmall" text="">
-					<Anchors>
-						<Anchor point="LEFT" relativePoint="RIGHT">
-							<Offset>
-								<AbsDimension x="-5" y="3"/>
-							</Offset>
-						</Anchor>
-					</Anchors>
-				</FontString>
-			</Layer>
-		</Layers>
-		<Scripts>
-			<OnShow>
-				pfUI_DropDownOnShow();
-			</OnShow>
-		</Scripts>
-	</Frame>
-	<Frame name="pfUI_FontTemplate" virtual="true">
+	<Frame name="kUI_FontTemplate" virtual="true">
 		<Size>
 			<AbsDimension x="100" y="10"/>
 		</Size>
@@ -102,9 +82,21 @@
 			</Layer>
 		</Layers>
 	</Frame>
+	<EditBox name="kUI_EditTemplate" autoFocus="false" inherits="InputBoxTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="200" y="16"/>
+		</Size>
+		<Scripts>
+			<OnEnterPressed>
+				kUI_SaveText();		
+				this:ClearFocus();
+			</OnEnterPressed>
+		</Scripts>
+		<FontString inherits="ChatFontNormal" bytes="64"/>
+	</EditBox>
 	<!-- Templates -->
 	
-	<Frame name="pfUI" toplevel="true" frameStrata="LOW" movable="false" enableMouse="true" hidden="true" parent="UIParent">
+	<Frame name="kUI" toplevel="true" frameStrata="LOW" movable="false" enableMouse="true" hidden="true" parent="UIParent">
 		<Size>
 			<AbsDimension x="400" y="400" />
 		</Size>
@@ -129,7 +121,7 @@
 		
 		<Layers>
 			<Layer level="ARTWORK">
-				<Texture name="pfUI_Title" file="Interface\DialogFrame\UI-DialogBox-Header">
+				<Texture name="kUI_Title" file="Interface\DialogFrame\UI-DialogBox-Header">
 					<Size>
 						<AbsDimension x="330" y="64" />
 					</Size>
@@ -141,9 +133,9 @@
 						</Anchor>
 					</Anchors>
 				</Texture>
-				<FontString name="pfUI_TitleText" inherits="GameFontNormal" text="Rauen's PetFeed">
+				<FontString name="kUI_TitleText" inherits="GameFontNormal" text="Rauen's Karma">
 					<Anchors>
-						<Anchor point="TOP" relativeTo="pfUI">
+						<Anchor point="TOP" relativeTo="kUI">
 							<Offset>
 								<AbsDimension x="0" y="-3" />
 							</Offset>
@@ -156,9 +148,9 @@
 
 		<Frames>
 			
-			<CheckButton name="pfUI_CheckEnable" inherits="pfUI_CheckTemplate">
+			<CheckButton name="kUI_CheckEnable" inherits="kUI_CheckTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="pfUI" relativePoint="TOPLEFT">
+					<Anchor point="TOPLEFT" relativeTo="kUI" relativePoint="TOPLEFT">
 						<Offset>
 							<AbsDimension x="10" y="-10" />
 						</Offset>
@@ -166,80 +158,130 @@
 				</Anchors>
 			</CheckButton>
 
-			<Frame name="pfUI_ConfigBox" inherits="pfUI_BoxTemplate">
+			<Frame name="kUI_DisplayBox" inherits="kUI_BoxTemplate">
 				<Size>
-					<AbsDimension x="360" y="90"/>
+					<AbsDimension x="360" y="85"/>
 				</Size>
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="pfUI_CheckEnable" relativePoint="BOTTOMLEFT">
+					<Anchor point="TOPLEFT" relativeTo="kUI_CheckEnable" relativePoint="BOTTOMLEFT">
 						<Offset>
 							<AbsDimension x="10" y="-20"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
 				<Frames>
-					<CheckButton name="pfUI_CheckSilent" inherits="pfUI_CheckTemplate">
+					<CheckButton name="kUI_CheckKarma" inherits="kUI_CheckTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="pfUI_ConfigBox" relativePoint="TOPLEFT">
+							<Anchor point="TOPLEFT" relativeTo="kUI_DisplayBox" relativePoint="TOPLEFT">
 								<Offset>
 									<AbsDimension x="10" y="-10" />
 								</Offset>
 							</Anchor>
 						</Anchors>
 					</CheckButton>
-					<CheckButton name="pfUI_LevelDropDown" inherits="pfUI_DropDownTemplate">
+					<CheckButton name="kUI_CheckGuild" inherits="kUI_CheckTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="pfUI_CheckSilent" relativePoint="BOTTOMLEFT">
+							<Anchor point="LEFT" relativeTo="kUI_CheckKarma" relativePoint="RIGHT">
 								<Offset>
-									<AbsDimension x="-15" y="-5" />
+									<AbsDimension x="100" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kUI_CheckNote" inherits="kUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kUI_CheckKarma" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
 					</CheckButton>
 				</Frames>
 			</Frame>
-			<Frame name="pfUI_CommandsBox" inherits="pfUI_BoxTemplate">
+			<Frame name="kUI_AlertBox" inherits="kUI_BoxTemplate">
 				<Size>
-					<AbsDimension x="360" y="170"/>
+					<AbsDimension x="360" y="85"/>
 				</Size>
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="pfUI_ConfigBox" relativePoint="BOTTOMLEFT">
+					<Anchor point="TOPLEFT" relativeTo="kUI_DisplayBox" relativePoint="BOTTOMLEFT">
 						<Offset>
 							<AbsDimension x="0" y="-15"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
 				<Frames>
-					<Frame name="pfUI_FontAdd" inherits="pfUI_FontTemplate">
+					<CheckButton name="kUI_CheckGoodAlert" inherits="kUI_CheckTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="pfUI_CommandsBox" relativePoint="TOPLEFT">
+							<Anchor point="TOPLEFT" relativeTo="kUI_AlertBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<EditBox name="kUI_GoodEdit" inherits="kUI_EditTemplate">
+						<Anchors>
+							<Anchor point="LEFT" relativeTo="kUI_CheckGoodAlert" relativePoint="RIGHT">
+								<Offset>
+									<AbsDimension x="100" y="0"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</EditBox>
+					<CheckButton name="kUI_CheckBadAlert" inherits="kUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kUI_CheckGoodAlert" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<EditBox name="kUI_BadEdit" inherits="kUI_EditTemplate">
+						<Anchors>
+							<Anchor point="LEFT" relativeTo="kUI_CheckBadAlert" relativePoint="RIGHT">
+								<Offset>
+									<AbsDimension x="100" y="0"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</EditBox>
+				</Frames>
+			</Frame>
+			<Frame name="kUI_CommandsBox" inherits="kUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="360" y="140"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="kUI_AlertBox" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<Frame name="kUI_FontIns" inherits="kUI_FontTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kUI_CommandsBox" relativePoint="TOPLEFT">
 								<Offset>
 									<AbsDimension x="20" y="-18" />
 								</Offset>
 							</Anchor>
 						</Anchors>
 					</Frame>
-					<Frame name="pfUI_FontRemove" inherits="pfUI_FontTemplate">
+					<Frame name="kUI_FontKarma" inherits="kUI_FontTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="pfUI_FontAdd" relativePoint="BOTTOMLEFT">
+							<Anchor point="TOPLEFT" relativeTo="kUI_FontIns" relativePoint="BOTTOMLEFT">
 								<Offset>
 									<AbsDimension x="0" y="-25" />
 								</Offset>
 							</Anchor>
 						</Anchors>
 					</Frame>
-					<Frame name="pfUI_FontShow" inherits="pfUI_FontTemplate">
+					<Frame name="kUI_FontNote" inherits="kUI_FontTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="pfUI_FontRemove" relativePoint="BOTTOMLEFT">
-								<Offset>
-									<AbsDimension x="0" y="-25" />
-								</Offset>
-							</Anchor>
-						</Anchors>
-					</Frame>
-					<Frame name="pfUI_FontDiet" inherits="pfUI_FontTemplate">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="pfUI_FontShow" relativePoint="BOTTOMLEFT">
+							<Anchor point="TOPLEFT" relativeTo="kUI_FontKarma" relativePoint="BOTTOMLEFT">
 								<Offset>
 									<AbsDimension x="0" y="-25" />
 								</Offset>
@@ -249,9 +291,9 @@
 				</Frames>
 			</Frame>
 			
-			 <Button name="pfUI_CloseButton" inherits="UIPanelCloseButton">
+			 <Button name="kUI_CloseButton" inherits="UIPanelCloseButton">
 				<Anchors>
-					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="pfUI">>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="kUI">>
 						<Offset>
 							<AbsDimension x="-5" y="-5"/>
 						</Offset>
@@ -262,14 +304,14 @@
 						if ( ColorPickerFrame:IsVisible() ) then
 							ColorPickerFrame:Hide();
 						end
-						pfUI_Close();
+						kUI_Close();
 					</OnClick>
 				</Scripts>
 			</Button>
 			
-			<Button name="pfUI_SaveButton" inherits="GameMenuButtonTemplate" text="Ok">
+			<Button name="kUI_SaveButton" inherits="GameMenuButtonTemplate" text="Ok">
 				<Anchors>
-					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="pfUI">
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="kUI">
 						<Offset>
 							<AbsDimension x="-15" y="15"/>
 						</Offset>
@@ -280,14 +322,14 @@
 						if ( ColorPickerFrame:IsVisible() ) then
 							ColorPickerFrame:Hide();
 						end
-						pfUI_Close();
+						kUI_Close();
 					</OnClick>
 				</Scripts>
 			</Button>
 			
-			<Button name="pfUI_ResetButton" inherits="GameMenuButtonTemplate" text="Defaults">
+			<Button name="kUI_ResetButton" inherits="GameMenuButtonTemplate" text="Defaults">
 				<Anchors>
-					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="pfUI">
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="kUI">
 						<Offset>
 							<AbsDimension x="15" y="15"/>
 						</Offset>
@@ -295,7 +337,22 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						pfUI_Reset();
+						kUI_Reset();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="kUI_ResetStatsButton" inherits="GameMenuButtonTemplate" text="Reset Karma">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="kUI">
+						<Offset>
+							<AbsDimension x="15" y="40"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						kUI_ResetStats();
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -303,10 +360,10 @@
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				pfUI_OnLoad();
+				kUI_OnLoad();
 			</OnLoad>
 			<OnShow>
-				pfUI_OnShow();
+				kUI_OnShow();
 			</OnShow>
 		</Scripts>
 	</Frame>

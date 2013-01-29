@@ -6,7 +6,7 @@ function PetAttack_OnLoad()
 
 	-- Register for Events
 	this:RegisterEvent("VARIABLES_LOADED");
-
+	
 	-- Register Slash Commands
 	SLASH_PETATTACK1 = "/petattack";
 	SLASH_PETATTACK2 = "/pa";
@@ -18,16 +18,22 @@ function PetAttack_OnLoad()
 	
 end
 
+function PetAttack_ChatCommandHandler(msg)
+	PlaySound("igMainMenuOpen");
+	ShowUIPanel(paUI);
+end
+
 function PetAttack_OnEvent()
 
 	if ( event == "VARIABLES_LOADED") then
 		if ( PetAttack_Config ) then
 			if ( PetAttack_Config.Version ~= PETATTACK_VERSION ) then
-				ChatMessage("PetAttack updated to v"..PETATTACK_VERSION..".");
-				PetAttack_Reset();
+				PetAttack_Upgrade();
 			end
 		else
-			ChatMessage("PetAttack updated to v"..PETATTACK_VERSION..".");
+			PetAttack_Upgrade();
+		end
+		if not ( PetAttack_Config[UnitName("player")] ) then
 			PetAttack_Reset();
 		end
 		return;
@@ -35,42 +41,58 @@ function PetAttack_OnEvent()
 	
 end
 
-function PetAttack_ChatCommandHandler(msg)
-
-	-- Menu
-	if ( paUI:IsVisible() ) then
-		PlaySound("igMainMenuClose");
-		HideUIPanel(paUI);
-	else
-		PlaySound("igMainMenuOpen");
-		ShowUIPanel(paUI);
-	end
-	
+function PetAttack_Upgrade()
+	PetAttack_Config = { };
+	PetAttack_Config.Version = PETATTACK_VERSION;
+	ChatMessage("PetAttack updated to v"..PETATTACK_VERSION..".");
 end
 
 function PetAttack_Reset()
 
-	PetAttack_Config = { };
-	PetAttack_Config.Enabled = true;
-	PetAttack_Config.Version = PETATTACK_VERSION;
-	PetAttack_Config.AttackAlert = true;
-	PetAttack_Config.AttackChannel = "SAY";
-	PetAttack_Config.AssistMeAlert = true;
-	PetAttack_Config.AssistMeChannel = "SAY";
-	PetAttack_Config.AssistOtherAlert = true;
-	PetAttack_Config.AssistOtherChannel = "SAY";
-	PetAttack_Config.Cast = false;
-	PetAttack_Config.Spell = "Hunter's Mark";
-	PetAttack_Config.Rank = "Rank 1";
+	if not ( PetAttack_Config ) then
+		PetAttack_Upgrade();
+	end
+	PetAttack_Config[UnitName("player")] = { };
+	local class = UnitClass("player");
+	if ( class == "Hunter" ) or ( class == "Warlock" ) then
+		PetAttack_Config[UnitName("player")].Enabled = true;
+	else
+		PetAttack_Config[UnitName("player")].Enabled = false;
+	end
+	PetAttack_Config[UnitName("player")].AttackAlert = true;
+	PetAttack_Config[UnitName("player")].AttackChannel = "SAY";
+	PetAttack_Config[UnitName("player")].AssistMeAlert = true;
+	PetAttack_Config[UnitName("player")].AssistMeChannel = "SAY";
+	PetAttack_Config[UnitName("player")].AssistOtherAlert = true;
+	PetAttack_Config[UnitName("player")].AssistOtherChannel = "SAY";
+	PetAttack_Config[UnitName("player")].Cast = false;
+	PetAttack_Config[UnitName("player")].Spell = "Hunter's Mark";
+	PetAttack_Config[UnitName("player")].Rank = "Rank 1";
 	
-	ChatMessage("PetAttack configuration reset.");
+	PetAttack_Config[UnitName("player")].Messages = { };
+	PetAttack_Config[UnitName("player")].Messages.AssistMe = {
+		"pet! Assist me!",
+		"pet! Aid me!",
+		"pet! I need your help!"
+		};
+	PetAttack_Config[UnitName("player")].Messages.AssistOther = {
+		"pet! Assist player!",
+		"pet! Aid player!",
+		"pet! Help player!"
+		};
+	PetAttack_Config[UnitName("player")].Messages.Attack = {
+		"pet! Attack the target!",
+		"Attack the target, pet!"
+		};
+	
+	ChatMessage(UnitName("player").."'s PetAttack configuration reset.");
 	
 end
 
 function PetAttack_Attack()
 
 	-- Check if Enabled
-	if not ( PetAttack_Config.Enabled ) then
+	if not ( PetAttack_Config[UnitName("player")].Enabled ) then
 		return;
 	end
 
@@ -94,11 +116,11 @@ function PetAttack_Attack()
 			end
 			message = SetMessage(pet, target, player, "assist_other");
 			-- Check Alert
-			if ( PetAttack_Config.AssistOtherAlert ) then
-				if ( PetAttack_Config.AssistOtherChannel == "CHAT" ) then
+			if ( PetAttack_Config[UnitName("player")].AssistOtherAlert ) then
+				if ( PetAttack_Config[UnitName("player")].AssistOtherChannel == "CHAT" ) then
 					ChatMessage(message);
-				elseif not ( ( PetAttack_Config.AssistOtherChannel == "PARTY" ) and ( UnitName("party1") == nil ) ) then
-					ChannelMessage(message, PetAttack_Config.AssistOtherChannel);
+				elseif not ( ( PetAttack_Config[UnitName("player")].AssistOtherChannel == "PARTY" ) and ( UnitName("party1") == nil ) ) then
+					ChannelMessage(message, PetAttack_Config[UnitName("player")].AssistOtherChannel);
 				end
 			end
 
@@ -108,11 +130,11 @@ function PetAttack_Attack()
 			if UnitIsTappedByPlayer("target") then
 				message = SetMessage(pet, target, "me", "assist_me");
 				-- Check Alert
-				if ( PetAttack_Config.AssistMeAlert ) then
-					if ( PetAttack_Config.AssistMeChannel == "CHAT" ) then
+				if ( PetAttack_Config[UnitName("player")].AssistMeAlert ) then
+					if ( PetAttack_Config[UnitName("player")].AssistMeChannel == "CHAT" ) then
 						ChatMessage(message);
-					elseif not ( ( PetAttack_Config.AssistMeChannel == "PARTY" ) and ( UnitName("party1") == nil ) ) then
-						ChannelMessage(message, PetAttack_Config.AssistMeChannel);
+					elseif not ( ( PetAttack_Config[UnitName("player")].AssistMeChannel == "PARTY" ) and ( UnitName("party1") == nil ) ) then
+						ChannelMessage(message, PetAttack_Config[UnitName("player")].AssistMeChannel);
 					end
 				end
 
@@ -120,18 +142,21 @@ function PetAttack_Attack()
 			else
 		
 				-- Check Cast
-				if ( PetAttack_Config.Cast ) then
-					CastSpell( Lib.GetSpellID( PetAttack_Config.Spell, PetAttack_Config.Rank ), BOOKTYPE_SPELL);
+				if ( PetAttack_Config[UnitName("player")].Cast ) then
+					local spell_id = Lib.GetSpellID( PetAttack_Config[UnitName("player")].Spell, PetAttack_Config[UnitName("player")].Rank);
+					if ( spell_id ) then
+						CastSpell( spell_id, BOOKTYPE_SPELL);
+					end
 				end
 		
 				-- Attack
 				message = SetMessage(pet, target, "none", "attack");
 				-- Check Alert
-				if ( PetAttack_Config.AttackAlert ) then
-					if ( PetAttack_Config.AttackChannel == "CHAT" ) then
+				if ( PetAttack_Config[UnitName("player")].AttackAlert ) then
+					if ( PetAttack_Config[UnitName("player")].AttackChannel == "CHAT" ) then
 						ChatMessage(message);
-					elseif not ( ( PetAttack_Config.AttackChannel == "PARTY" ) and ( UnitName("party1") == nil ) ) then
-						ChannelMessage(message, PetAttack_Config.AttackChannel);
+					elseif not ( ( PetAttack_Config[UnitName("player")].AttackChannel == "PARTY" ) and ( UnitName("party1") == nil ) ) then
+						ChannelMessage(message, PetAttack_Config[UnitName("player")].AttackChannel);
 					end
 				end
 		
@@ -144,4 +169,23 @@ function PetAttack_Attack()
 		PetAttack();
 		
 	end
+end
+
+
+function SetMessage(pet, target, player, type)
+	
+	if (type == "assist_me") then
+		message = PetAttack_Config[UnitName("player")].Messages.AssistMe[math.random(table.getn(PetAttack_Config[UnitName("player")].Messages.AssistMe))];
+	elseif (type == "assist_other") then
+		message = PetAttack_Config[UnitName("player")].Messages.AssistOther[math.random(table.getn(PetAttack_Config[UnitName("player")].Messages.AssistOther))];
+	elseif (type == "attack") then
+		message = PetAttack_Config[UnitName("player")].Messages.Attack[math.random(table.getn(PetAttack_Config[UnitName("player")].Messages.Attack))];
+	end
+	
+	message = string.gsub(message, "pet", pet);
+	message = string.gsub(message, "player", player);
+	message = string.gsub(message, "target", target);
+	
+	return message;
+	
 end

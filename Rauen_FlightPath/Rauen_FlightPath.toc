@@ -1,0 +1,7 @@
+## Interface: 11000
+## Title: Rauen's FlightPath
+## Author: Rauen
+## Notes: FlightPath
+## SavedVariables: FlightPath_Config, FlightPath_Nodes, FlightPath_NodesAvailability
+## Dependencies: Rauen_Library
+FlightPath.xml

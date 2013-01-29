@@ -25,9 +25,9 @@ function PetFeed_OnLoad()
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
 
 	-- Register Slash Commands
-	SLASH_PetFeed1 = "/PetFeed";
-	SLASH_PetFeed2 = "/pf";
-	SlashCmdList["PetFeed"] = function(msg)
+	SLASH_PETFEED1 = "/petfeed";
+	SLASH_PETFEED2 = "/pf";
+	SlashCmdList["PETFEED"] = function(msg)
 		PetFeed_ChatCommandHandler(msg);
 	end
 	
@@ -35,13 +35,28 @@ function PetFeed_OnLoad()
 
 end
 
+function PetFeed_Upgrade()
+	PetFeed_Config = { };
+	PetFeed_Config.Version = PETFEED_VERSION;
+	ChatMessage("PetFeed updated to v"..PETFEED_VERSION..".");
+end
+
 function PetFeed_Reset()
 
-	PetFeed_Config = { };
-	PetFeed_Config.Enabled = true;
-	PetFeed_Config.Version = PETFEED_VERSION;
-	PetFeed_Config.Silent = false;
-	PetFeed_Config.Level = "content";
+	if not ( PetFeed_Config ) then
+		PetFeed_Upgrade();
+	end
+	PetFeed_Config[UnitName("player")] = { };
+	local class = UnitClass("player");
+	if ( class == "Hunter" ) or ( class == "Warlock" ) then
+		PetFeed_Config[UnitName("player")].Enabled = true;
+	else
+		PetFeed_Config[UnitName("player")].Enabled = false;
+	end
+	PetFeed_Config[UnitName("player")].Silent = false;
+	PetFeed_Config[UnitName("player")].Level = "content";
+	
+	ChatMessage(UnitName("player").."'s PetFeed configuration reset.");
 
 end
 
@@ -50,11 +65,12 @@ function PetFeed_OnEvent(event, arg1)
 	if ( event == "VARIABLES_LOADED") then
 		if ( PetFeed_Config ) then
 			if ( PetFeed_Config.Version ~= PETFEED_VERSION ) then
-				ChatMessage("PetFeed updated to v"..TRADEWATCH_VERSION..".");
-				PetFeed_Reset();
+				PetFeed_Upgrade();
 			end
 		else
-			ChatMessage("PetFeed updated to v"..PETFEED_VERSION..".");
+			PetFeed_Upgrade();
+		end
+		if not ( PetFeed_Config[UnitName("player")] ) then
 			PetFeed_Reset();
 		end
 		return;
@@ -100,31 +116,27 @@ function PetFeed_OnEvent(event, arg1)
 			return;
 		end
 		
+		-- Check if Mounted
+		 if ( Lib.UnitHasBuffTexture("player", "Mount") ) then
+			return;
+		end
+		
 		-- Check if Has Feed Effect
 		if ( PetFeed_HasFeedEffect() ) then
 			return;
 		end
 	
 		-- Check Happiness
-		if ( PetFeed_Config.Enabled ) then
+		if ( PetFeed_Config[UnitName("player")].Enabled ) then
 			PetFeed_CheckHappiness();
 		end
 		
 	end
-	
+
 end
 
 function PetFeed_ChatCommandHandler(msg)
 
-	-- Check for Pet
-	if not ( UnitExists("pet") ) then
-		ChatMessage("You do not currently have a pet.");
-		return;
-	end
-	
-	-- Assign Variables
-	local pet = UnitName("pet");
-	
 	-- Add Food to List
 	if ( string.sub(msg, 1, 3) == "add" ) then
 	
@@ -347,6 +359,9 @@ function PetFeed_ChatCommandHandler(msg)
 	
 	end
 	
+	PlaySound("igMainMenuOpen");
+	ShowUIPanel(pfUI);
+	
 end
 
 -- Check Happiness
@@ -357,9 +372,9 @@ function PetFeed_CheckHappiness()
 	local happiness, damage, loyalty = GetPetHappiness();
 	
 	local level;
-	if ( PetFeed_Config.Level == "content" ) then
+	if ( PetFeed_Config[UnitName("player")].Level == "content" ) then
 		level = 2;
-	elseif ( PetFeed_Config.Level == "happy" ) then
+	elseif ( PetFeed_Config[UnitName("player")].Level == "happy" ) then
 		level = 3;
 	end
 	
@@ -370,7 +385,7 @@ function PetFeed_CheckHappiness()
 	
 	-- Check if Need Feeding
 	if ( happiness < level ) then
-		if ( PetFeed_Var.Searching ) or ( PetFeed_Config.Silent ) then
+		if ( PetFeed_Var.Searching ) or ( PetFeed_Config[UnitName("player")].Silent ) then
 			PetFeed_Var.Searching = false;
 			PetFeed_Feed();
 		else
@@ -403,7 +418,7 @@ function PetFeed_Feed()
 				else
 				
 					-- Alert
-					if not ( PetFeed_Config.Silent ) then
+					if not ( PetFeed_Config[UnitName("player")].Silent ) then
 						ChatMessage(pet.." eats a "..Lib.GetItemName(m, n).." from your pack.");
 					end
 					
@@ -417,7 +432,9 @@ function PetFeed_Feed()
 	end
 	
 	-- No Food Could be Found
-	ChatMessage(pet.." could not find any food in your pack.");
+	if not ( PetFeed_Config[UnitName("player")].Silent ) then
+		ChatMessage(pet.." could not find any food in your pack.");
+	end
 	
 end
 

@@ -1,0 +1,8 @@
+## Interface: 11000
+## Title: Rauen's Karma
+## Author: Rauen
+## Notes: Karma
+## SavedVariables: Karma_Config
+## Dependencies: Rauen_Library, Rauen_Data
+Karma.xml
+kUI.xml

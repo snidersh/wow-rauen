@@ -1,0 +1,476 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ C:ProjectsWoWBinInterfaceFrameXMLUI.xsd">
+
+	<Script file="_Version.lua"/>
+	<Script file="FlightPath.lua"/>
+	<Script file="FlightPath_Nodes.lua"/>
+	
+	<!-- Templates -->
+	<Frame name="FlightPath_BoxTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentTitle" inherits="GameFontHighlight">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
+							<Offset>
+								<AbsDimension x="9" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+			<TileSize>
+				<AbsValue val="16"/>
+			</TileSize>
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5"/>
+			</BackgroundInsets>
+		</Backdrop>
+		<Scripts>
+			<OnLoad>
+				this:SetBackdropBorderColor(0.4, 0.4, 0.4);
+				this:SetBackdropColor(0.2, 0.2, 0.2);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Button name="FlightPath_ButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Scripts>
+			<OnEnter>
+				FlightPath_OnButtonEnter(this);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+			<OnClick>
+				FlightPath_ButtonOnClick();
+			</OnClick>
+		</Scripts>
+		<NormalTexture file="Interface\AddOns\Rauen_FlightPath\Skin\Black"/>
+		<HighlightTexture file="Interface\AddOns\Rauen_FlightPath\Skin\Green"/>
+	</Button>
+	<FontString name="FlightPath_MarkerTemplate" inherits="GameFontHighlight" hidden="true" virtual="true">
+		<Size>
+			<AbsDimension x="50" y="20"/>
+		</Size>
+	</FontString>
+	<Texture name="FlightPath_LineTemplate" hidden="true" virtual="true">
+		<Size>
+			<AbsDimension x="512" y="512"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT"/>
+		</Anchors>
+	</Texture>
+	<!-- Templates -->
+
+	<Frame name="FlightPath" toplevel="true" frameStrata="LOW" movable="false" enableMouse="true" hidden="true" parent="UIParent">
+		<Size>
+			<AbsDimension x="625" y="355" />
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Backdrop bgFile="Interface\Addons\Rauen_Library\Skin\Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />	
+				<Size>
+					<AbsDimension x="128" y="17" />
+				</Size>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="FlightPath_Title" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="330" y="64" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset>
+								<AbsDimension x="0" y="12" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString name="FlightPath_TitleText" inherits="GameFontNormal" text="Rauen's FlightPath">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="FlightPath">
+							<Offset>
+								<AbsDimension x="0" y="-3" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="FlightPath_MapBox" inherits="FlightPath_BoxTemplate">
+				<Size>
+					<AbsDimension x="585" y="300"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="FlightPath" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="20" y="-35"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<Frame>
+						<Size>
+							<AbsDimension x="585" y="320"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<AbsDimension x="0" y="0"/>
+							</Anchor>
+						</Anchors>
+						<Layers>
+							<Layer level="BACKGROUND">
+								<Texture name="FlightPath_WesternMap" file="Interface\TaxiFrame\TAXIMAP1">
+									<Size>
+										<AbsDimension x="280" y="280"/>
+									</Size>
+									<Anchors>
+										<Anchor point="TOPLEFT">
+											<Offset>
+												<AbsDimension x="10" y="-10"/>
+											</Offset>
+										</Anchor>
+									</Anchors>
+								</Texture>
+								<Texture name="FlightPath_EasternMap" file="Interface\TaxiFrame\TAXIMAP0">
+									<Size>
+										<AbsDimension x="280" y="280"/>
+									</Size>
+									<Anchors>
+										<Anchor point="TOPLEFT">
+											<Offset>
+												<AbsDimension x="295" y="-10"/>
+											</Offset>
+										</Anchor>
+									</Anchors>
+								</Texture>
+							</Layer>
+							<Layer level="ARTWORK">
+								<Texture name="FlightPath_Line2" inherits="FlightPath_LineTemplate"/>
+								<Texture name="FlightPath_Line3" inherits="FlightPath_LineTemplate"/>
+								<Texture name="FlightPath_Line4" inherits="FlightPath_LineTemplate"/>
+								<Texture name="FlightPath_Line5" inherits="FlightPath_LineTemplate"/>
+								<Texture name="FlightPath_Line6" inherits="FlightPath_LineTemplate"/>
+								<Texture name="FlightPath_Line7" inherits="FlightPath_LineTemplate"/>
+								<Texture name="FlightPath_Line8" inherits="FlightPath_LineTemplate"/>
+								<Texture name="FlightPath_Line9" inherits="FlightPath_LineTemplate"/>
+								<Texture name="FlightPath_Line10" inherits="FlightPath_LineTemplate"/>
+							
+								<FontString name="FlightPath_MarkerStart" inherits="FlightPath_MarkerTemplate" hidden="true" text="Start"/>
+								<FontString name="FlightPath_MarkerFinish" inherits="FlightPath_MarkerTemplate" hidden="true" text="Finish"/>
+								<FontString name="FlightPath_Marker2" inherits="FlightPath_MarkerTemplate" hidden="true" text="1"/>
+								<FontString name="FlightPath_Marker3" inherits="FlightPath_MarkerTemplate" hidden="true" text="2"/>
+								<FontString name="FlightPath_Marker4" inherits="FlightPath_MarkerTemplate" hidden="true" text="3"/>
+								<FontString name="FlightPath_Marker5" inherits="FlightPath_MarkerTemplate" hidden="true" text="4"/>
+								<FontString name="FlightPath_Marker6" inherits="FlightPath_MarkerTemplate" hidden="true" text="5"/>
+								<FontString name="FlightPath_Marker7" inherits="FlightPath_MarkerTemplate" hidden="true" text="6"/>
+								<FontString name="FlightPath_Marker8" inherits="FlightPath_MarkerTemplate" hidden="true" text="7"/>
+								<FontString name="FlightPath_Marker9" inherits="FlightPath_MarkerTemplate" hidden="true" text="8"/>
+								<FontString name="FlightPath_Marker10" inherits="FlightPath_MarkerTemplate" hidden="true" text="9"/>
+							</Layer>
+						</Layers>
+					</Frame>
+					
+					<Button name="FlightPath_Button_Auberdine" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Astranaar" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Everlook" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Feathermoon Stronghold" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Gadgetzan" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Lake Elune'ara" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Nighthaven" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Nijel's Point" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Ratchet" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Rut'theran Village" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Stonetalon Peak" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Talonbranch Glade" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Talrendis Point" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Thalanaar" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Theramore Isle" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Cenarion Hold" inherits="FlightPath_ButtonTemplate"/>
+					
+					<Button name="FlightPath_Button_Aerie Peak" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Booty Bay" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Chillwind Camp" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Darkshire" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Ironforge" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Lakeshire" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Light's Hope Chapel" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Menethil Harbor" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Morgan's Vigil" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Nethergarde Keep" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Refuge Pointe" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Sentinel Hill" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Southshore" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Stormwind" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Thelsamar" inherits="FlightPath_ButtonTemplate"/>
+					<Button name="FlightPath_Button_Thorium Point" inherits="FlightPath_ButtonTemplate"/>
+					
+				</Frames>
+			</Frame>
+			<Button name="FlightPath_CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="FlightPath">>
+						<Offset>
+							<AbsDimension x="-5" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						FlightPath_Close();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="FlightPath_ResetMapButton" inherits="GameMenuButtonTemplate" text="Reset Map">
+				<Size>
+					<AbsDimension x="80" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="FlightPath_MapBox" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="10" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						FlightPath_ResetMap();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="FlightPath_ShowPathButton" inherits="GameMenuButtonTemplate" text="Show Path">
+				<Size>
+					<AbsDimension x="80" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="FlightPath_ResetMapButton" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="5" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						FlightPath_ShowPath();
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				FlightPath_OnLoad();
+			</OnLoad>
+			<OnEvent>
+				FlightPath_OnEvent(event);
+			</OnEvent>
+			<OnShow>
+				FlightPath_OnShow();
+			</OnShow>
+		</Scripts>
+	</Frame>
+	
+	<Frame name="miniFlightPath" toplevel="true" frameStrata="HIGH" movable="true" enableMouse="true" hidden="true" parent="UIParent">
+		<Size>
+			<AbsDimension x="50" y="50" />
+		</Size>
+		<Anchors>
+			<Anchor point="BOTTOM" relativeTo="FlightPath" relativePoint="TOP">
+				<Offset>
+					<AbsDimension x="0" y="20"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\Addons\Rauen_Library\Skin\Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />	
+				<Size>
+					<AbsDimension x="128" y="17" />
+				</Size>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="miniFlightPath_TextPath" inherits="GameFontHighlightSmall">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="miniFlightPath">
+							<Offset>
+								<AbsDimension x="0" y="-25" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="miniFlightPath_Text2" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="miniFlightPath_TextPath" relativePoint="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="-8" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="miniFlightPath_Text3" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="miniFlightPath_Text2" relativePoint="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="-5" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="miniFlightPath_Text4" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="miniFlightPath_Text3" relativePoint="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="-5" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="miniFlightPath_Text5" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="miniFlightPath_Text4" relativePoint="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="-5" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="miniFlightPath_Text6" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="miniFlightPath_Text5" relativePoint="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="-5" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="miniFlightPath_Text7" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="miniFlightPath_Text6" relativePoint="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="-5" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="miniFlightPath_Text8" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="miniFlightPath_Text7" relativePoint="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="-5" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="miniFlightPath_Text9" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="miniFlightPath_Text8" relativePoint="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="-5" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="miniFlightPath_Text10" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="miniFlightPath_Text9" relativePoint="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="-5" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="miniFlightPath_CloseButton" inherits="UIPanelCloseButton">
+				<Size>
+					<AbsDimension x="24" y="24"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="miniFlightPath">>
+						<Offset>
+							<AbsDimension x="-5" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						miniFlightPath_Close();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="miniFlightPath_ShowButton">
+				<Size>
+					<AbsDimension x="10" y="10"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="miniFlightPath" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="9" y="-8"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						miniFlightPath_ShowOnClick();
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-MinusButton-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-MinusButton-Down"/>
+				<DisabledTexture file="Interface\Buttons\UI-MinusButton-Disabled"/>
+				<HighlightTexture alphaMode="ADD" file="Interface\Buttons\UI-PlusButton-Hilight"/>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnShow>
+				miniFlightPath_OnShow();
+			</OnShow>
+		</Scripts>
+	</Frame>
+	
+	<!--Frame name="FlightPath_Recorder" toplevel="true" frameStrata="HIGH" movable="true" enableMouse="true" parent="UIParent">
+		<Size>
+			<AbsDimension x="50" y="50" />
+		</Size>
+		<Anchors>
+			<Anchor point="BOTTOM" relativeTo="FlightPath" relativePoint="TOP">
+				<Offset>
+					<AbsDimension x="0" y="20"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnUpdate>
+				FlightPath_OnUpdate();
+			</OnUpdate>
+		</Scripts>
+	</Frame-->
+	
+</Ui>

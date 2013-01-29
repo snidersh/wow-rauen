@@ -104,6 +104,66 @@
 			</OnLoad>
 		</Scripts>
 	</Frame>
+	<Button name="pdUI_TabButtonTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size>
+						<AbsDimension x="5" y="19"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+					<TexCoords left="0" right="0.078125" top="0" bottom="0.59375"/>
+				</Texture>
+				<Texture name="$parentRight" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size>
+						<AbsDimension x="4" y="19"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+					</Anchors>
+					<TexCoords left="0.90625" right="0.96875" top="0" bottom="0.59375"/>
+				</Texture>
+				<Texture name="$parentMiddle" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size>
+						<AbsDimension x="10" y="19"/>
+					</Size>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+						<Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT"/>
+					</Anchors>
+					<TexCoords left="0.078125" right="0.90625" top="0" bottom="0.59375"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<NormalText name="$parentText" inherits="GameFontHighlightSmall">
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset>
+						<AbsDimension x="8" y="0"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+		</NormalText>
+		<HighlightTexture file="Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight" alphaMode="ADD">
+			<Size>
+				<AbsDimension x="5" y="24"/>
+			</Size>
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset>
+						<AbsDimension x="0" y="0"/>
+					</Offset>
+				</Anchor>
+				<Anchor point="RIGHT">
+					<Offset>
+						<AbsDimension x="4" y="0"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+		</HighlightTexture>
+	</Button>
 	<!-- Templates -->
 	
 	<Frame name="pdUI" toplevel="true" frameStrata="LOW" movable="false" enableMouse="true" hidden="true" parent="UIParent">
@@ -113,7 +173,7 @@
 		<Anchors>
 			<Anchor point="CENTER" />
 		</Anchors>
-		<Backdrop bgFile="Interface\Addons\Rauen_ConfigMenu\Skin\Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border"
+		<Backdrop bgFile="Interface\Addons\Rauen_Library\Skin\Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border"
 			tile="true">
 			<BackgroundInsets>
 				<AbsInset left="11" right="12" top="12" bottom="11" />	
@@ -170,7 +230,7 @@
 
 			<Frame name="pdUI_DefendBox" inherits="pdUI_BoxTemplate">
 				<Size>
-					<AbsDimension x="360" y="90"/>
+					<AbsDimension x="360" y="115"/>
 				</Size>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="pdUI_CheckEnable" relativePoint="BOTTOMLEFT">
@@ -189,9 +249,18 @@
 							</Anchor>
 						</Anchors>
 					</CheckButton>
-					<CheckButton name="pdUI_CheckMember" inherits="pdUI_CheckTemplate">
+					<CheckButton name="pdUI_CheckHealers" inherits="pdUI_CheckTemplate">
 						<Anchors>
 							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckParty" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="pdUI_CheckMember" inherits="pdUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckHealers" relativePoint="BOTTOMLEFT">
 								<Offset>
 									<AbsDimension x="0" y="0" />
 								</Offset>
@@ -311,17 +380,17 @@
 			</Frame>
 			<Frame name="pdUI_AlertBox" inherits="pdUI_BoxTemplate">
 				<Size>
-					<AbsDimension x="360" y="50"/>
+					<AbsDimension x="360" y="80"/>
 				</Size>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="pdUI_TauntBox" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension x="0" y="-15"/>
+							<AbsDimension x="0" y="-25"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
 				<Frames>
-					<CheckButton name="pdUI_CheckAlert" inherits="pdUI_CheckTemplate">
+					<CheckButton name="pdUI_CheckAssistAlert" inherits="pdUI_CheckTemplate">
 						<Anchors>
 							<Anchor point="TOPLEFT" relativeTo="pdUI_AlertBox" relativePoint="TOPLEFT">
 								<Offset>
@@ -330,17 +399,87 @@
 							</Anchor>
 						</Anchors>
 					</CheckButton>
-					<CheckButton name="pdUI_AlertDropDown" inherits="pdUI_DropDownTemplate">
+					<CheckButton name="pdUI_AssistAlertDropDown" inherits="pdUI_DropDownTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckAlert" relativePoint="TOPLEFT">
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckAssistAlert" relativePoint="TOPLEFT">
 								<Offset>
 									<AbsDimension x="120" y="-2" />
 								</Offset>
 							</Anchor>
 						</Anchors>
 					</CheckButton>
+					<EditBox name="pdUI_AssistAlertEdit" inherits="pdUI_EditTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckAssistAlert" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-5"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</EditBox>
+					<CheckButton name="pdUI_CheckCowerAlert" inherits="pdUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_AlertBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="pdUI_CowerAlertDropDown" inherits="pdUI_DropDownTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckCowerAlert" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="120" y="-2" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<EditBox name="pdUI_CowerAlertEdit" inherits="pdUI_EditTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckCowerAlert" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-5"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</EditBox>
 				</Frames>
 			</Frame>
+			<Button name="pdUI_AssistTab" inherits="pdUI_TabButtonTemplate" text="Assist">
+				<Size>
+					<AbsDimension x="60" y="19"/>
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="pdUI_AlertBox" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="5" y="-3"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						pdUI_TabOnClick("Assist");
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="pdUI_CowerTab" inherits="pdUI_TabButtonTemplate" text="Cower">
+				<Size>
+					<AbsDimension x="60" y="19"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="pdUI_AssistTab" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="-2" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						pdUI_TabOnClick("Cower");
+					</OnClick>
+				</Scripts>
+			</Button>
 			
 			 <Button name="pdUI_CloseButton" inherits="UIPanelCloseButton">
 				<Anchors>
@@ -360,7 +499,7 @@
 				</Scripts>
 			</Button>
 			
-			<Button name="pdUI_SaveButton" inherits="GameMenuButtonTemplate" text="Close">
+			<Button name="pdUI_SaveButton" inherits="GameMenuButtonTemplate" text="Ok">
 				<Anchors>
 					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="pdUI">
 						<Offset>

@@ -1,4 +1,4 @@
-## Interface: 1500
+## Interface: 11000
 ## Title: Rauen's PetFeed
 ## Author: Rauen
 ## Notes: PetFeed

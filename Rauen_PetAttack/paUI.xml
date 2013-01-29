@@ -98,6 +98,24 @@
 			</OnShow>
 		</Scripts>
 	</Frame>
+	<Frame name="paUI_FontTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="100" y="16"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentText" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="0" y="-2"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
 	<Frame name="paUI_BoxTemplate" virtual="true">
 		<Layers>
 			<Layer level="BACKGROUND">
@@ -130,6 +148,107 @@
 			</OnLoad>
 		</Scripts>
 	</Frame>
+	<Button name="paUI_MessageButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="320" y="25"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentText" inherits="GameFontHighlightSmall" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="310" y="25"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="10" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+		</Frames>
+		<Scripts>
+			<OnClick>
+				paUI_RowButton_OnClick();
+			</OnClick>
+		</Scripts>
+		<HighlightTexture name="$parentHighlight" file="Interface\AddOns\Rauen_Library\Skin\Highlight" alphaMode="ADD">
+			<Size>
+				<AbsDimension x="320" y="25"/>
+			</Size>
+			<Anchors>
+				<Anchor point="TOPLEFT">
+					<Offset>
+						<AbsDimension x="0" y="0"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+			<TexCoords left="0" right="1.0" top="0" bottom="0.578125"/>
+		</HighlightTexture>
+	</Button>
+	<Button name="paUI_TabButtonTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size>
+						<AbsDimension x="5" y="19"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+					<TexCoords left="0" right="0.078125" top="0" bottom="0.59375"/>
+				</Texture>
+				<Texture name="$parentRight" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size>
+						<AbsDimension x="4" y="19"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+					</Anchors>
+					<TexCoords left="0.90625" right="0.96875" top="0" bottom="0.59375"/>
+				</Texture>
+				<Texture name="$parentMiddle" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size>
+						<AbsDimension x="10" y="19"/>
+					</Size>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+						<Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT"/>
+					</Anchors>
+					<TexCoords left="0.078125" right="0.90625" top="0" bottom="0.59375"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<NormalText name="$parentText" inherits="GameFontHighlightSmall">
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset>
+						<AbsDimension x="8" y="0"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+		</NormalText>
+		<HighlightTexture file="Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight" alphaMode="ADD">
+			<Size>
+				<AbsDimension x="5" y="24"/>
+			</Size>
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset>
+						<AbsDimension x="0" y="0"/>
+					</Offset>
+				</Anchor>
+				<Anchor point="RIGHT">
+					<Offset>
+						<AbsDimension x="4" y="0"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+		</HighlightTexture>
+	</Button>
 	<!-- Templates -->
 	
 	<Frame name="paUI" toplevel="true" frameStrata="LOW" movable="false" enableMouse="true" hidden="true" parent="UIParent">
@@ -139,7 +258,7 @@
 		<Anchors>
 			<Anchor point="CENTER" />
 		</Anchors>
-		<Backdrop bgFile="Interface\Addons\Rauen_ConfigMenu\Skin\Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border"
+		<Backdrop bgFile="Interface\Addons\Rauen_Library\Skin\Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border"
 			tile="true">
 			<BackgroundInsets>
 				<AbsInset left="11" right="12" top="12" bottom="11" />	
@@ -258,18 +377,20 @@
 					</EditBox>
 				</Frames>
 			</Frame>
+			
 			<Frame name="paUI_AlertBox" inherits="paUI_BoxTemplate">
 				<Size>
-					<AbsDimension x="360" y="135"/>
+					<AbsDimension x="360" y="255"/>
 				</Size>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="paUI_SpellBox" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension x="0" y="-15"/>
+							<AbsDimension x="0" y="-25"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
 				<Frames>
+					
 					<CheckButton name="paUI_CheckAttackAlert" inherits="paUI_CheckTemplate">
 						<Anchors>
 							<Anchor point="TOPLEFT" relativeTo="paUI_AlertBox" relativePoint="TOPLEFT">
@@ -288,11 +409,12 @@
 							</Anchor>
 						</Anchors>
 					</CheckButton>
+					
 					<CheckButton name="paUI_CheckAssistMeAlert" inherits="paUI_CheckTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="paUI_CheckAttackAlert" relativePoint="BOTTOMLEFT">
+							<Anchor point="TOPLEFT" relativeTo="paUI_AlertBox" relativePoint="TOPLEFT">
 								<Offset>
-									<AbsDimension x="0" y="-10" />
+									<AbsDimension x="10" y="-10" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -306,11 +428,12 @@
 							</Anchor>
 						</Anchors>
 					</CheckButton>
+					
 					<CheckButton name="paUI_CheckAssistOtherAlert" inherits="paUI_CheckTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="paUI_CheckAssistMeAlert" relativePoint="BOTTOMLEFT">
+							<Anchor point="TOPLEFT" relativeTo="paUI_AlertBox" relativePoint="TOPLEFT">
 								<Offset>
-									<AbsDimension x="0" y="-10" />
+									<AbsDimension x="10" y="-10" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -324,12 +447,225 @@
 							</Anchor>
 						</Anchors>
 					</CheckButton>
+					
+					<Frame name="paUI_InsetBox" inherits="paUI_BoxTemplate">
+						<Size>
+							<AbsDimension x="340" y="110"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_AlertBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-50"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Frames>
+					
+							<Button name="paUI_MessageButton1" inherits="paUI_MessageButtonTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="paUI_InsetBox" relativePoint="TOPLEFT">
+										<Offset>
+											<AbsDimension x="10" y="-5" />
+										</Offset>
+									</Anchor>
+								</Anchors>
+							</Button>
+							<Button name="paUI_MessageButton2" inherits="paUI_MessageButtonTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="paUI_MessageButton1" relativePoint="BOTTOMLEFT">
+										<Offset>
+											<AbsDimension x="0" y="0" />
+										</Offset>
+									</Anchor>
+								</Anchors>
+							</Button>
+							<Button name="paUI_MessageButton3" inherits="paUI_MessageButtonTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="paUI_MessageButton2" relativePoint="BOTTOMLEFT">
+										<Offset>
+											<AbsDimension x="0" y="0" />
+										</Offset>
+									</Anchor>
+								</Anchors>
+							</Button>
+							<Button name="paUI_MessageButton4" inherits="paUI_MessageButtonTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="paUI_MessageButton3" relativePoint="BOTTOMLEFT">
+										<Offset>
+											<AbsDimension x="0" y="0" />
+										</Offset>
+									</Anchor>
+								</Anchors>
+							</Button>			
+						</Frames>
+					</Frame>
+					
+					<Button name="paUI_PrevPageButton">
+						<Size>
+							<AbsDimension x="32" y="32"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_InsetBox" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="0"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Layers>
+							<Layer level="BACKGROUND">
+								<FontString name="$parentText" inherits="GameFontNormal" justifyH="LEFT" text="PREV">
+									<Anchors>
+										<Anchor point="LEFT" relativeTo="paUI_PrevPageButton" relativePoint="RIGHT"/>
+									</Anchors>
+								</FontString>
+							</Layer>
+						</Layers>
+						<Scripts>
+							<OnClick>
+								paUI_PrevPageButton_OnClick();
+							</OnClick>
+						</Scripts>
+						<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
+						<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
+						<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+					</Button>
+					<Button name="paUI_NextPageButton">
+						<Size>
+							<AbsDimension x="32" y="32"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPRIGHT" relativeTo="paUI_InsetBox" relativePoint="BOTTOMRIGHT">
+								<Offset>
+									<AbsDimension x="0" y="0"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Layers>
+							<Layer level="BACKGROUND">
+								<FontString name="$parentText" inherits="GameFontNormal" justifyH="RIGHT" text="NEXT">
+									<Anchors>
+										<Anchor point="RIGHT" relativeTo="paUI_NextPageButton" relativePoint="LEFT"/>
+									</Anchors>
+								</FontString>
+							</Layer>
+						</Layers>
+						<Scripts>
+							<OnClick>
+								paUI_NextPageButton_OnClick();
+							</OnClick>
+						</Scripts>
+						<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
+						<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
+						<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+					</Button>
+					<Frame name="paUI_PageLabel" inherits="paUI_FontTemplate">
+						<Anchors>
+							<Anchor point="TOP" relativeTo="paUI_InsetBox" relativePoint="BOTTOM">
+								<Offset>
+									<AbsDimension x="15" y="0"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</Frame>
+					
+					<EditBox name="paUI_AddEdit" inherits="paUI_EditTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_InsetBox" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="8" y="-40"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</EditBox>
+					<Button name="paUI_AddButton" inherits="GameMenuButtonTemplate" text="Add">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="paUI_AddEdit">>
+								<Offset>
+									<AbsDimension x="-5" y="0"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								paUI_AddMessage();
+							</OnClick>
+						</Scripts>
+					</Button>
+					<Button name="paUI_DeleteButton" inherits="GameMenuButtonTemplate" text="Delete">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="paUI_AddButton">>
+								<Offset>
+									<AbsDimension x="0" y="0"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								paUI_DeleteSelected();
+							</OnClick>
+						</Scripts>
+					</Button>
+					
 				</Frames>
 			</Frame>
 			
+			<Button name="paUI_AttackTab" inherits="paUI_TabButtonTemplate" text="Attack">
+				<Size>
+					<AbsDimension x="60" y="19"/>
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="paUI_AlertBox" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="5" y="-3"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						paUI_TabOnClick("Attack");
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="paUI_AssistMeTab" inherits="paUI_TabButtonTemplate" text="Assist Me">
+				<Size>
+					<AbsDimension x="70" y="19"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="paUI_AttackTab" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="-2" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						paUI_TabOnClick("AssistMe");
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="paUI_AssistOtherTab" inherits="paUI_TabButtonTemplate" text="Assist Other">
+				<Size>
+					<AbsDimension x="100" y="19"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="paUI_AssistMeTab" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="-2" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						paUI_TabOnClick("AssistOther");
+					</OnClick>
+				</Scripts>
+			</Button>
+			
 			 <Button name="paUI_CloseButton" inherits="UIPanelCloseButton">
 				<Anchors>
-					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="paUI">>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="paUI">
 						<Offset>
 							<AbsDimension x="-5" y="-5"/>
 						</Offset>
@@ -345,7 +681,7 @@
 				</Scripts>
 			</Button>
 			
-			<Button name="paUI_SaveButton" inherits="GameMenuButtonTemplate" text="Close">
+			<Button name="paUI_SaveButton" inherits="GameMenuButtonTemplate" text="Ok">
 				<Anchors>
 					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="paUI">
 						<Offset>

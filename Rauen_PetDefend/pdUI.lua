@@ -2,9 +2,16 @@ function pdUI_OnLoad()
 
 	-- Init
 	tinsert(UISpecialFrames,"pdUI");
-	this:SetHeight("460");
+	this:SetHeight("535");
 	this:SetWidth("400");
+	
+	 pdUI_ResetVars();
 
+end
+
+function pdUI_ResetVars()
+	pdUI_Var = { };
+	pdUI_Var.Type = "Assist";
 end
 
 function pdUI_OnShow()
@@ -21,77 +28,83 @@ function pdUI_OnShow()
 	frame = getglobal("pdUI_Title");
 	frame:SetWidth(text:GetWidth()+250);
 	
-	-- PetDefend_Config.Enabled
+	-- PetDefend_Config[UnitName("player")].Enabled
 	button = getglobal("pdUI_CheckEnable");
 	OptionsFrame_EnableCheckBox(button);
 	text = getglobal("pdUI_CheckEnableText");
 	text:SetText("Enabled");
-	button:SetChecked( PetDefend_Config.Enabled );
+	button:SetChecked( PetDefend_Config[UnitName("player")].Enabled );
 	
 	-- Defense Panel
 	text = getglobal("pdUI_DefendBoxTitle");
 	text:SetText("Defending");
 	text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
-	if not ( PetDefend_Config.Enabled ) then
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 	end
 	
-	-- PetDefend_Config.DefendAll
+	-- PetDefend_Config[UnitName("player")].DefendAll
 	button = getglobal("pdUI_CheckParty");
 	OptionsFrame_EnableCheckBox(button);
 	text = getglobal("pdUI_CheckPartyText");
 	text:SetText("Defend Party");
-	button:SetChecked( PetDefend_Config.DefendAll );
-	if not ( PetDefend_Config.Enabled ) then
+	button:SetChecked( PetDefend_Config[UnitName("player")].DefendAll );
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		OptionsFrame_DisableCheckBox(button);
 	end
 	
-	-- PetDefend_Config.DefendAll
+	-- PetDefend_Config[UnitName("player")].DefendHealers
+	button = getglobal("pdUI_CheckHealers");
+	OptionsFrame_EnableCheckBox(button);
+	text = getglobal("pdUI_CheckHealersText");
+	text:SetText("Defend Healers");
+	button:SetChecked( PetDefend_Config[UnitName("player")].DefendHealers );
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
+		OptionsFrame_DisableCheckBox(button);
+	end
+	
+	-- PetDefend_Config[UnitName("player")].DefendAll
 	button = getglobal("pdUI_CheckMember");
 	OptionsFrame_EnableCheckBox(button);
 	text = getglobal("pdUI_CheckMemberText");
 	text:SetText("Defend Member");
-	if ( PetDefend_Config.DefendAll ) then
-		button:SetChecked(0)
-	else
-		button:SetChecked(1);
-	end
-	if not ( PetDefend_Config.Enabled ) then
+	button:SetChecked( PetDefend_Config[UnitName("player")].DefendMember );
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		OptionsFrame_DisableCheckBox(button);
 	end
 	
-	-- PetDefend_Config.Member
+	-- PetDefend_Config[UnitName("player")].Member
 	text = getglobal("pdUI_MemberEdit");
-	text:SetText(PetDefend_Config.DefendMember);
+	text:SetText(PetDefend_Config[UnitName("player")].DefendMemberName);
 	text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
-	if not ( PetDefend_Config.Enabled ) then
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 	end
-	if ( PetDefend_Config.DefendAll ) then
+	if not ( PetDefend_Config[UnitName("player")].DefendMember ) then
 		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);		
 	end
 	
-	-- PetDefend_Config.AssistInCombat
+	-- PetDefend_Config[UnitName("player")].AssistInCombat
 	button = getglobal("pdUI_CheckAlways");
 	OptionsFrame_EnableCheckBox(button);
 	text = getglobal("pdUI_CheckAlwaysText");
 	text:SetText("Always Defend");
-	button:SetChecked( PetDefend_Config.AssistInCombat );
-	if not ( PetDefend_Config.Enabled ) then
+	button:SetChecked( PetDefend_Config[UnitName("player")].AssistInCombat );
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		OptionsFrame_DisableCheckBox(button);
 	end
 	
-	-- PetDefend_Config.LowHealth
+	-- PetDefend_Config[UnitName("player")].LowHealth
 	button = getglobal("pdUI_CheckLowHealth");
 	OptionsFrame_EnableCheckBox(button);
 	text = getglobal("pdUI_CheckLowHealthText");
 	text:SetText("Defend on Low Health");
-	button:SetChecked( PetDefend_Config.LowHealth );
-	if not ( PetDefend_Config.Enabled ) then
+	button:SetChecked( PetDefend_Config[UnitName("player")].LowHealth );
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		OptionsFrame_DisableCheckBox(button);
 	end
 	
-	-- PetDefend_Config.HealthMin
+	-- PetDefend_Config[UnitName("player")].HealthMin
 	slider = getglobal("pdUI_HealthSlider");
 	OptionsFrame_EnableSlider(slider);
 	text = getglobal("pdUI_HealthSliderText");
@@ -99,14 +112,14 @@ function pdUI_OnShow()
 	high = getglobal("pdUI_HealthSliderHigh");
 	slider:SetMinMaxValues(0, 100);
 	slider:SetValueStep(5);
-	slider:SetValue( PetDefend_Config.HealthMin );
-	text:SetText(PetDefend_Config.HealthMin.."% Minimum Member Health");
+	slider:SetValue( PetDefend_Config[UnitName("player")].HealthMin );
+	text:SetText(PetDefend_Config[UnitName("player")].HealthMin.."% Minimum Member Health");
 	low:SetText("0%");
 	high:SetText("100%");
-	if not ( PetDefend_Config.Enabled ) then
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		OptionsFrame_DisableSlider(slider);
 	end
-	if not ( PetDefend_Config.LowHealth ) then
+	if not ( PetDefend_Config[UnitName("player")].LowHealth ) then
 		OptionsFrame_DisableSlider(slider);
 	end
 	
@@ -114,53 +127,53 @@ function pdUI_OnShow()
 	text = getglobal("pdUI_TauntBoxTitle");
 	text:SetText("Taunting");
 	text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
-	if not ( PetDefend_Config.Enabled ) then
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 	end
 	
-	-- PetDefend_Config.CheckGrowl
+	-- PetDefend_Config[UnitName("player")].CheckGrowl
 	button = getglobal("pdUI_CheckGrowl");
 	OptionsFrame_EnableCheckBox(button);
 	text = getglobal("pdUI_CheckGrowlText");
 	text:SetText("Taunt");
-	button:SetChecked( PetDefend_Config.Growl );
-	if not ( PetDefend_Config.Enabled ) then
+	button:SetChecked( PetDefend_Config[UnitName("player")].Growl );
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		OptionsFrame_DisableCheckBox(button);
 	end
 	
-	-- PetDefend_Config.GrowlName
+	-- PetDefend_Config[UnitName("player")].GrowlName
 	text = getglobal("pdUI_GrowlEdit");
-	text:SetText(PetDefend_Config.GrowlName);
+	text:SetText(PetDefend_Config[UnitName("player")].GrowlName);
 	text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
-	if not ( PetDefend_Config.Enabled ) then
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 	end
-	if not ( PetDefend_Config.Growl ) then
+	if not ( PetDefend_Config[UnitName("player")].Growl ) then
 		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);		
 	end
 	
-	-- PetDefend_Config.CheckCower
+	-- PetDefend_Config[UnitName("player")].CheckCower
 	button = getglobal("pdUI_CheckCower");
 	OptionsFrame_EnableCheckBox(button);
 	text = getglobal("pdUI_CheckCowerText");
 	text:SetText("Detaunt");
-	button:SetChecked( PetDefend_Config.Cower );
-	if not ( PetDefend_Config.Enabled ) then
+	button:SetChecked( PetDefend_Config[UnitName("player")].Cower );
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		OptionsFrame_DisableCheckBox(button);
 	end
 	
-	-- PetDefend_Config.CowerName
+	-- PetDefend_Config[UnitName("player")].CowerName
 	text = getglobal("pdUI_CowerEdit");
-	text:SetText(PetDefend_Config.CowerName);
+	text:SetText(PetDefend_Config[UnitName("player")].CowerName);
 	text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
-	if not ( PetDefend_Config.Enabled ) then
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 	end
-	if not ( PetDefend_Config.Cower ) then
+	if not ( PetDefend_Config[UnitName("player")].Cower ) then
 		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);		
 	end
 	
-	-- PetDefend_Config.HealthMin
+	-- PetDefend_Config[UnitName("player")].HealthMin
 	slider = getglobal("pdUI_CowerSlider");
 	OptionsFrame_EnableSlider(slider);
 	text = getglobal("pdUI_CowerSliderText");
@@ -168,49 +181,137 @@ function pdUI_OnShow()
 	high = getglobal("pdUI_CowerSliderHigh");
 	slider:SetMinMaxValues(0, 100);
 	slider:SetValueStep(5);
-	slider:SetValue( PetDefend_Config.CowerMin );
-	text:SetText(PetDefend_Config.CowerMin.."% Minimum Pet Health");
+	slider:SetValue( PetDefend_Config[UnitName("player")].CowerMin );
+	text:SetText(PetDefend_Config[UnitName("player")].CowerMin.."% Minimum Pet Health");
 	low:SetText("0%");
 	high:SetText("100%");
-	if not ( PetDefend_Config.Enabled ) then
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		OptionsFrame_DisableSlider(slider);
 	end
-	if not ( PetDefend_Config.Cower ) then
+	if not ( PetDefend_Config[UnitName("player")].Cower ) then
 		OptionsFrame_DisableSlider(slider);
 	end
 	
-	-- Alert Panel
-	text = getglobal("pdUI_AlertBoxTitle");
-	text:SetText("Alerts");
-	text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
-	if not ( PetDefend_Config.Enabled ) then
+	-- Assist Tab
+	button = getglobal("pdUI_AssistTab");
+	text = getglobal("pdUI_AssistTabText");
+	button:Enable();
+	if ( pdUI_Var.Type == "Assist" ) then
+		text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+	else
+		text:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
+	end
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
+		button:Disable();
 		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 	end
 	
-	-- PetDefend_Config.Alert
-	button = getglobal("pdUI_CheckAlert");
-	OptionsFrame_EnableCheckBox(button);
-	text = getglobal("pdUI_CheckAlertText");
-	text:SetText("Defense Messages");
-	button:SetChecked( PetDefend_Config.Alert );
-	if not ( PetDefend_Config.Enabled ) then
-		OptionsFrame_DisableCheckBox(button);
+	-- Cower Tab
+	button = getglobal("pdUI_CowerTab");
+	text = getglobal("pdUI_CowerTabText");
+	button:Enable();
+	if ( pdUI_Var.Type == "Cower" ) then
+		text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+	else
+		text:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
+	end
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
+		button:Disable();
+		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 	end
 	
-	-- PetDefend_Config.Channel
-	button = getglobal("pdUI_AlertDropDown");
+	-- PetDefend_Config[UnitName("player")].AssistAlert
+	button = getglobal("pdUI_CheckAssistAlert");
+	OptionsFrame_EnableCheckBox(button);
+	text = getglobal("pdUI_CheckAssistAlertText");
+	text:SetText("Assist Alert");
+	button:SetChecked( PetDefend_Config[UnitName("player")].AssistAlert );
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
+		OptionsFrame_DisableCheckBox(button);
+	end
+	button:Hide();
+	if ( pdUI_Var.Type == "Assist" ) then
+		button:Show();
+	end
+	
+	-- PetDefend_Config[UnitName("player")].AssistChannel
+	button = getglobal("pdUI_AssistAlertDropDown");
 	OptionsFrame_EnableDropDown(button);
-	if not ( PetDefend_Config.Enabled ) then
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		OptionsFrame_DisableDropDown(button);
 	end
-	if not ( PetDefend_Config.Alert ) then
+	if not ( PetDefend_Config[UnitName("player")].AssistAlert ) then
 		OptionsFrame_DisableDropDown(button);
+	end
+	button:Hide();
+	if ( pdUI_Var.Type == "Assist" ) then
+		button:Show();
+	end
+	
+	-- PetDefend_Config[UnitName("player")].AssistMessage
+	text = getglobal("pdUI_AssistAlertEdit");
+	text:SetWidth(300);
+	text:SetText(PetDefend_Config[UnitName("player")].AssistMessage);
+	text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
+		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
+	end
+	if not ( PetDefend_Config[UnitName("player")].AssistAlert ) then
+		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);		
+	end
+	text:Hide();
+	if ( pdUI_Var.Type == "Assist" ) then
+		text:Show();
+	end
+	
+	-- PetDefend_Config[UnitName("player")].CowerAlert
+	button = getglobal("pdUI_CheckCowerAlert");
+	OptionsFrame_EnableCheckBox(button);
+	text = getglobal("pdUI_CheckCowerAlertText");
+	text:SetText("Cower Alert");
+	button:SetChecked( PetDefend_Config[UnitName("player")].CowerAlert );
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
+		OptionsFrame_DisableCheckBox(button);
+	end
+	button:Hide();
+	if ( pdUI_Var.Type == "Cower" ) then
+		button:Show();
+	end
+	
+	-- PetDefend_Config[UnitName("player")].CowerChannel
+	button = getglobal("pdUI_CowerAlertDropDown");
+	OptionsFrame_EnableDropDown(button);
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
+		OptionsFrame_DisableDropDown(button);
+	end
+	if not ( PetDefend_Config[UnitName("player")].CowerAlert ) then
+		OptionsFrame_DisableDropDown(button);
+	end
+	button:Hide();
+	if ( pdUI_Var.Type == "Cower" ) then
+		button:Show();
+	end
+	
+	-- PetDefend_Config[UnitName("player")].CowerMessage
+	text = getglobal("pdUI_CowerAlertEdit");
+	text:SetWidth(300);
+	text:SetText(PetDefend_Config[UnitName("player")].CowerMessage);
+	text:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
+		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
+	end
+	if not ( PetDefend_Config[UnitName("player")].CowerAlert ) then
+		text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);		
+	end
+	text:Hide();
+	if ( pdUI_Var.Type == "Cower" ) then
+		text:Show();
 	end
 	
 	-- Defaults
 	button = getglobal("pdUI_ResetButton");
 	button:Enable();
-	if not ( PetDefend_Config.Enabled ) then
+	if not ( PetDefend_Config[UnitName("player")].Enabled ) then
 		button:Disable();
 	end
 	
@@ -222,24 +323,34 @@ end
 function pdUI_DropDownOnShow()
 	local button = this;
 	local name = button:GetName();
-	if ( name == "pdUI_AlertDropDown" ) then
-		UIDropDownMenu_SetSelectedValue(button, PetDefend_Config.Channel);
+	if ( name == "pdUI_AssistAlertDropDown" ) then
+		UIDropDownMenu_SetSelectedValue(button, PetDefend_Config[UnitName("player")].AssistChannel);
+		UIDropDownMenu_Initialize(button, pdUI_DropDownInit);
+		UIDropDownMenu_SetWidth(60, button);
+	end
+	if ( name == "pdUI_CowerAlertDropDown" ) then
+		UIDropDownMenu_SetSelectedValue(button, PetDefend_Config[UnitName("player")].CowerChannel);
 		UIDropDownMenu_Initialize(button, pdUI_DropDownInit);
 		UIDropDownMenu_SetWidth(60, button);
 	end
 end
 
 function pdUI_DropDownRefresh()
-	UIDropDownMenu_SetSelectedValue(pdUI_AlertDropDown, PetDefend_Config.Channel);
-	UIDropDownMenu_Refresh(pdUI_AlertDropDown);
+	UIDropDownMenu_SetSelectedValue(pdUI_AssistAlertDropDown, PetDefend_Config[UnitName("player")].AssistChannel);
+	UIDropDownMenu_Refresh(pdUI_AssistAlertDropDown);
+	UIDropDownMenu_SetSelectedValue(pdUI_CowerAlertDropDown, PetDefend_Config[UnitName("player")].CowerChannel);
+	UIDropDownMenu_Refresh(pdUI_CowerAlertDropDown);
 end
 
 function pdUI_DropDownInit()
 
 	local func;
 	local name = this:GetName();
-	if ( string.find(name, "pdUI_AlertDropDown") ) then
-		func = pdUI_AlertDropDownOnClick;
+	if ( string.find(name, "pdUI_AssistAlertDropDown") ) then
+		func = pdUI_AssistAlertDropDownOnClick;
+	end
+	if ( string.find(name, "pdUI_CowerAlertDropDown") ) then
+		func = pdUI_CowerAlertDropDownOnClick;
 	end
 	
 	local info = { };
@@ -270,11 +381,25 @@ function pdUI_DropDownInit()
 		info.checked = nil;
 	end
 	UIDropDownMenu_AddButton(info);
+	info.text = "Emote";
+	info.value = "EMOTE";
+	info.func = func;
+	if ( info.value == selectedValue ) then
+		info.checked = 1;
+	else
+		info.checked = nil;
+	end
+	UIDropDownMenu_AddButton(info);
 end
 
-function pdUI_AlertDropDownOnClick()
-	UIDropDownMenu_SetSelectedValue(pdUI_AlertDropDown, this.value);
-	PetDefend_Config.Channel = UIDropDownMenu_GetSelectedValue(pdUI_AlertDropDown);
+function pdUI_AssistAlertDropDownOnClick()
+	UIDropDownMenu_SetSelectedValue(pdUI_AssistAlertDropDown, this.value);
+	PetDefend_Config[UnitName("player")].AssistChannel = UIDropDownMenu_GetSelectedValue(pdUI_AssistAlertDropDown);
+end
+
+function pdUI_CowerAlertDropDownOnClick()
+	UIDropDownMenu_SetSelectedValue(pdUI_CowerAlertDropDown, this.value);
+	PetDefend_Config[UnitName("player")].CowerChannel = UIDropDownMenu_GetSelectedValue(pdUI_CowerAlertDropDown);
 end
 
 function pdUI_Close()
@@ -290,12 +415,21 @@ function pdUI_Reset()
 	pdUI_DropDownRefresh();
 end
 
+function pdUI_TabOnClick(tab)
+	pdUI_Var.Type = tab;
+	pdUI_OnShow();
+end
+
 function pdUI_SaveText()
 	local text;
 	text = getglobal("pdUI_MemberEdit");
-	PetDefend_Config.DefendMember = text:GetText();
+	PetDefend_Config[UnitName("player")].DefendMemberName = text:GetText();
 	text = getglobal("pdUI_GrowlEdit");
-	PetDefend_Config.GrowlName = text:GetText();
+	PetDefend_Config[UnitName("player")].GrowlName = text:GetText();
+	text = getglobal("pdUI_AssistAlertEdit");
+	PetDefend_Config[UnitName("player")].AssistMessage = text:GetText();
+	text = getglobal("pdUI_CowerAlertEdit");
+	PetDefend_Config[UnitName("player")].CowerMessage = text:GetText();
 end
 
 function pdUI_OpenColorPicker(button)
@@ -319,9 +453,9 @@ function pdUI_SetColor(key)
 	frame.r = r;
 	frame.g = g;
 	frame.b = b;
-	PetDefend_Config.Color[key].r = r;
-	PetDefend_Config.Color[key].g = g;
-	PetDefend_Config.Color[key].b = b;
+	PetDefend_Config[UnitName("player")].Color[key].r = r;
+	PetDefend_Config[UnitName("player")].Color[key].g = g;
+	PetDefend_Config[UnitName("player")].Color[key].b = b;
 end
 
 function pdUI_CancelColor(key, prev)
@@ -335,9 +469,9 @@ function pdUI_CancelColor(key, prev)
 	frame.r = r;
 	frame.g = g;
 	frame.b = b;
-	PetDefend_Config.Color[key].r = r;
-	PetDefend_Config.Color[key].g = g;
-	PetDefend_Config.Color[key].b = b;
+	PetDefend_Config[UnitName("player")].Color[key].r = r;
+	PetDefend_Config[UnitName("player")].Color[key].g = g;
+	PetDefend_Config[UnitName("player")].Color[key].b = b;
 end
 
 function pdUI_SliderOnValueChanged()
@@ -348,14 +482,14 @@ function pdUI_SliderOnValueChanged()
 	local name = slider:GetName();
 	
 	if ( name == "pdUI_HealthSlider" ) then
-		PetDefend_Config.HealthMin = slider:GetValue();
+		PetDefend_Config[UnitName("player")].HealthMin = slider:GetValue();
 		text = getglobal("pdUI_HealthSliderText");
-		text:SetText(PetDefend_Config.HealthMin.."% Minimum Member Health");
+		text:SetText(PetDefend_Config[UnitName("player")].HealthMin.."% Minimum Member Health");
 	end
 	if ( name == "pdUI_CowerSlider" ) then
-		PetDefend_Config.CowerMin = slider:GetValue();
+		PetDefend_Config[UnitName("player")].CowerMin = slider:GetValue();
 		text = getglobal("pdUI_CowerSliderText");
-		text:SetText(PetDefend_Config.CowerMin.."% Minimum Pet Health");
+		text:SetText(PetDefend_Config[UnitName("player")].CowerMin.."% Minimum Pet Health");
 	end
 	
 end
@@ -374,65 +508,87 @@ function pdUI_CheckButtonOnClick()
 	
 	if ( name == "pdUI_CheckEnable" ) then
 		if ( checked ) then
-			PetDefend_Config.Enabled = true;
+			PetDefend_Config[UnitName("player")].Enabled = true;
 		else
-			PetDefend_Config.Enabled = false;
+			PetDefend_Config[UnitName("player")].Enabled = false;
 		end
 	end
 	
 	if ( name == "pdUI_CheckParty" ) then
 		if ( checked ) then
-			PetDefend_Config.DefendAll = true;
+			PetDefend_Config[UnitName("player")].DefendAll = true;
+			PetDefend_Config[UnitName("player")].DefendHealers = false;
+			PetDefend_Config[UnitName("player")].DefendMember = false;
 		else
-			PetDefend_Config.DefendAll = false;
+			PetDefend_Config[UnitName("player")].DefendAll = false;
+		end
+	end
+	
+	if ( name == "pdUI_CheckHealers" ) then
+		if ( checked ) then
+			PetDefend_Config[UnitName("player")].DefendHealers = true;
+			PetDefend_Config[UnitName("player")].DefendAll = false;
+			PetDefend_Config[UnitName("player")].DefendMember = false;
+		else
+			PetDefend_Config[UnitName("player")].DefendHealers = false;
 		end
 	end
 	
 	if ( name == "pdUI_CheckMember" ) then
 		if ( checked ) then
-			PetDefend_Config.DefendAll = false;
+			PetDefend_Config[UnitName("player")].DefendMember = true;
+			PetDefend_Config[UnitName("player")].DefendAll = false;
+			PetDefend_Config[UnitName("player")].DefendHealers = false;
 		else
-			PetDefend_Config.DefendAll = true;
+			PetDefend_Config[UnitName("player")].DefendMember = false;
 		end
 	end
 	
 	if ( name == "pdUI_CheckAlways" ) then
 		if ( checked ) then
-			PetDefend_Config.AssistInCombat = true;
+			PetDefend_Config[UnitName("player")].AssistInCombat = true;
 		else
-			PetDefend_Config.AssistInCombat = false;
+			PetDefend_Config[UnitName("player")].AssistInCombat = false;
 		end
 	end
 	
 	if ( name == "pdUI_CheckLowHealth" ) then
 		if ( checked ) then
-			PetDefend_Config.LowHealth = true;
+			PetDefend_Config[UnitName("player")].LowHealth = true;
 		else
-			PetDefend_Config.LowHealth = false;
+			PetDefend_Config[UnitName("player")].LowHealth = false;
 		end
 	end
 	
 	if ( name == "pdUI_CheckGrowl" ) then
 		if ( checked ) then
-			PetDefend_Config.Growl = true;
+			PetDefend_Config[UnitName("player")].Growl = true;
 		else
-			PetDefend_Config.Growl = false;
+			PetDefend_Config[UnitName("player")].Growl = false;
 		end
 	end
 	
 	if ( name == "pdUI_CheckCower" ) then
 		if ( checked ) then
-			PetDefend_Config.Cower = true;
+			PetDefend_Config[UnitName("player")].Cower = true;
 		else
-			PetDefend_Config.Cower = false;
+			PetDefend_Config[UnitName("player")].Cower = false;
 		end
 	end
 	
-	if ( name == "pdUI_CheckAlert" ) then
+	if ( name == "pdUI_CheckAssistAlert" ) then
 		if ( checked ) then
-			PetDefend_Config.Alert = true;
+			PetDefend_Config[UnitName("player")].AssistAlert = true;
 		else
-			PetDefend_Config.Alert = false;
+			PetDefend_Config[UnitName("player")].AssistAlert = false;
+		end
+	end
+	
+	if ( name == "pdUI_CheckCowerAlert" ) then
+		if ( checked ) then
+			PetDefend_Config[UnitName("player")].CowerAlert = true;
+		else
+			PetDefend_Config[UnitName("player")].CowerAlert = false;
 		end
 	end
 	

@@ -2,7 +2,6 @@
 
 	<Script file="_Version.lua"/>
 	<Script file="PetAttack.lua"/>
-	<Script file="PetAttack_Messages.lua" />
 
 	<Frame name="Frame_PetAttack" hidden="true">
 		<Scripts>

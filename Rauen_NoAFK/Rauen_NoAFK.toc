@@ -1,0 +1,6 @@
+## Interface: 4150
+## Title: Rauen's NoAFK
+## Author: Rauen
+## Notes: Version 4150.1
+## SavedVariables: NoAFK_Config
+NoAFK.xml
