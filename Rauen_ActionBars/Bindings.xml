@@ -1,87 +1,175 @@
 <Bindings>
 
-	<Binding name="BARACTION_1" runOnUp="true" header="ACTIONBARS">
+	<Binding name="BARACTION_RIGHT1" header="ACTIONBARS">
 		if ( keystate == "down" ) then
-			Bars_ActionButtonDown(1);
+			Bars_ActionButtonDown("Right" , 1);
 		else
-			Bars_ActionButtonUp(1);
+			Bars_ActionButtonUp("Right" , 1);
 		end
 	</Binding>
-	<Binding name="BARACTION_2" runOnUp="true">
+		<Binding name="BARACTION_RIGHT2" runOnUp="true">
 		if ( keystate == "down" ) then
-			Bars_ActionButtonDown(2);
+			Bars_ActionButtonDown("Right" , 2);
 		else
-			Bars_ActionButtonUp(2);
+			Bars_ActionButtonUp("Right" , 2);
 		end
 	</Binding>
-		<Binding name="BARACTION_3" runOnUp="true">
+		<Binding name="BARACTION_RIGHT3" runOnUp="true">
 		if ( keystate == "down" ) then
-			Bars_ActionButtonDown(3);
+			Bars_ActionButtonDown("Right" , 3);
 		else
-			Bars_ActionButtonUp(3);
+			Bars_ActionButtonUp("Right" , 3);
 		end
 	</Binding>
-		<Binding name="BARACTION_4"  runOnUp="true">
+		<Binding name="BARACTION_RIGHT4" runOnUp="true">
 		if ( keystate == "down" ) then
-			Bars_ActionButtonDown(4);
+			Bars_ActionButtonDown("Right" , 4);
 		else
-			Bars_ActionButtonUp(4);
+			Bars_ActionButtonUp("Right" , 4);
 		end
 	</Binding>
-	<Binding name="BARACTION_5"  runOnUp="true">
+		<Binding name="BARACTION_RIGHT5" runOnUp="true">
 		if ( keystate == "down" ) then
-			Bars_ActionButtonDown(5);
+			Bars_ActionButtonDown("Right" , 5);
 		else
-			Bars_ActionButtonUp(5);
+			Bars_ActionButtonUp("Right" , 5);
 		end
 	</Binding>
-	<Binding name="BARACTION_6"  runOnUp="true">
+	<Binding name="BARACTION_RIGHT6"  runOnUp="true">
 		if ( keystate == "down" ) then
-			Bars_ActionButtonDown(6);
+			Bars_ActionButtonDown("Right" , 6);
 		else
-			Bars_ActionButtonUp(6);
+			Bars_ActionButtonUp("Right" , 6);
 		end
 	</Binding>
-	<Binding name="BARACTION_7"  runOnUp="true">
+	<Binding name="BARACTION_RIGHT7"  runOnUp="true">
 		if ( keystate == "down" ) then
-			Bars_ActionButtonDown(7);
+			Bars_ActionButtonDown("Right" , 7);
 		else
-			Bars_ActionButtonUp(7);
+			Bars_ActionButtonUp("Right" , 7);
 		end
 	</Binding>
-	<Binding name="BARACTION_8"  runOnUp="true">
+
+		<Binding name="BARACTION_RIGHT8"  runOnUp="true">
 		if ( keystate == "down" ) then
-			Bars_ActionButtonDown(8);
+			Bars_ActionButtonDown("Right" , 8);
 		else
-			Bars_ActionButtonUp(8);
+			Bars_ActionButtonUp("Right" , 8);
+		end
+	</Binding>
+	
+		<Binding name="BARACTION_RIGHT9"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown("Right" , 9);
+		else
+			Bars_ActionButtonUp("Right" , 9);
+		end
+	</Binding>
+		<Binding name="BARACTION_RIGHT10"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown("Right" , 10);
+		else
+			Bars_ActionButtonUp("Right" , 10);
+		end
+	</Binding>
+		<Binding name="BARACTION_RIGHT11"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown("Right" , 11);
+		else
+			Bars_ActionButtonUp("Right" , 11);
+		end
+	</Binding>
+		<Binding name="BARACTION_RIGHT12"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown("Right" , 12);
+		else
+			Bars_ActionButtonUp("Right" , 12);
+		end
+	</Binding>
+
+
+	<Binding name="BARACTION_LEFT1" runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown("Left" , 1);
+		else
+			Bars_ActionButtonUp("Left" , 1);
+		end
+	</Binding>
+		<Binding name="BARACTION_LEFT2" runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown("Left" , 2);
+		else
+			Bars_ActionButtonUp("Left" , 2);
+		end
+	</Binding>
+		<Binding name="BARACTION_LEFT3" runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown("Left" , 3);
+		else
+			Bars_ActionButtonUp("Left" , 3);
+		end
+	</Binding>
+		<Binding name="BARACTION_LEFT4"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown("Left" , 4);
+		else
+			Bars_ActionButtonUp("Left" , 4);
+		end
+	</Binding>
+		<Binding name="BARACTION_LEFT5"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown("Left" , 5);
+		else
+			Bars_ActionButtonUp("Left" , 5);
+		end
+	</Binding>
+	<Binding name="BARACTION_LEFT6"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown("Left" , 6);
+		else
+			Bars_ActionButtonUp("Left" , 6);
+		end
+	</Binding>
+	<Binding name="BARACTION_LEFT7"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown("Left" , 7);
+		else
+			Bars_ActionButtonUp("Left" , 7);
+		end
+	</Binding>
+	<Binding name="BARACTION_LEFT8"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown("Left" , 8);
+		else
+			Bars_ActionButtonUp("Left" , 8);
 		end
 	</Binding>	
-	<Binding name="BARACTION_9"  runOnUp="true">
+	<Binding name="BARACTION_LEFT9"  runOnUp="true">
 		if ( keystate == "down" ) then
-			Bars_ActionButtonDown(9);
+			Bars_ActionButtonDown("Left" , 9);
 		else
-			Bars_ActionButtonUp(9);
+			Bars_ActionButtonUp("Left" , 9);
 		end
 	</Binding>
-	<Binding name="BARACTION_10"  runOnUp="true">
+	<Binding name="BARACTION_LEFT10"  runOnUp="true">
 		if ( keystate == "down" ) then
-			Bars_ActionButtonDown(10);
+			Bars_ActionButtonDown("Left" , 10);
 		else
-			Bars_ActionButtonUp(10);
+			Bars_ActionButtonUp("Left" , 10);
 		end
 	</Binding>
-	<Binding name="BARACTION_11"  runOnUp="true">
+	<Binding name="BARACTION_LEFT11"  runOnUp="true">
 		if ( keystate == "down" ) then
-			Bars_ActionButtonDown(11);
+			Bars_ActionButtonDown("Left" , 11);
 		else
-			Bars_ActionButtonUp(11);
+			Bars_ActionButtonUp("Left" , 11);
 		end
 	</Binding>
-	<Binding name="BARACTION_12"  runOnUp="true">
+	<Binding name="BARACTION_LEFT12"  runOnUp="true">
 		if ( keystate == "down" ) then
-			Bars_ActionButtonDown(12);
+			Bars_ActionButtonDown("Left" , 12);
 		else
-			Bars_ActionButtonUp(12);
+			Bars_ActionButtonUp("Left" , 12);
 		end		
 	</Binding>	
 	

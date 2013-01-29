@@ -1,21 +1,44 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 
-	<Script file="_Version.lua"/>
 	<Script file="ActionBars.lua"/>
+	<Script file="ContainerFrame.lua"/>
+	<Script file="DurabilityFrame.lua"/>
 	<Script file="PartyFrame.lua"/>
 
-	<Frame name="BarFrame" parent="UIParent" hidden="true">
+	<Frame name="BarRightFrame" parent="UIParent" hidden="true">
 		<Scripts>
 			<OnLoad>
-				Bars_OnLoad();
+				Bars_OnLoad("Right");
 			</OnLoad>
 			<OnEvent>
-				Bars_OnEvent(event);	
+				Bars_OnEvent(event, "Right");	
+			</OnEvent>
+		</Scripts>
+	</Frame>
+	<Frame name="BarLeftFrame" parent="UIParent" hidden="true">
+		<Scripts>
+			<OnLoad>
+				Bars_OnLoad("Left");
+			</OnLoad>
+			<OnEvent>
+				Bars_OnEvent(event, "Left");	
 			</OnEvent>
 		</Scripts>
 	</Frame>
 
-	<CheckButton name="BarButton" inherits="ActionBarButtonTemplate" virtual="true">
+	<CheckButton name="BarRightButton" inherits="ActionBarButtonTemplate" virtual="true">
+		<Scripts>		
+			<OnEnter>
+				GameTooltip:SetOwner(this, "ANCHOR_LEFT");
+				if ( GameTooltip:SetAction(ActionButton_GetPagedID(this)) ) then
+					this.updateTooltip = TOOLTIP_UPDATE_TIME;
+				else
+					this.updateTooltip = nil;
+				end
+			</OnEnter>
+		</Scripts>
+	</CheckButton>
+	<CheckButton name="BarLeftButton" inherits="ActionBarButtonTemplate" virtual="true">
 		<Scripts>		
 			<OnEnter>
 				GameTooltip:SetOwner(this, "ANCHOR_RIGHT");
@@ -28,7 +51,7 @@
 		</Scripts>
 	</CheckButton>
 	
-	<CheckButton name="BarButton1" inherits="BarButton" parent="MainMenuBarArtFrame" id="85">
+	<CheckButton name="BarLeftButton1" inherits="BarLeftButton" parent="MainMenuBarArtFrame" id="85">
 		<Anchors>
 			<Anchor point="TOPLEFT">
 				<Offset>
@@ -37,63 +60,63 @@
 			</Anchor>
 		</Anchors>
 	</CheckButton>
-	<CheckButton name="BarButton2" inherits="BarButton" parent="MainMenuBarArtFrame" id="86">
+	<CheckButton name="BarLeftButton2" inherits="BarLeftButton" parent="MainMenuBarArtFrame" id="86">
 		<Anchors>
-			<Anchor point="TOP" relativeTo="BarButton1" relativePoint="BOTTOM">
+			<Anchor point="TOP" relativeTo="BarLeftButton1" relativePoint="BOTTOM">
 				<Offset>
 					<AbsDimension x="0" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 	</CheckButton>
-	<CheckButton name="BarButton3" inherits="BarButton" parent="MainMenuBarArtFrame" id="87">
+	<CheckButton name="BarLeftButton3" inherits="BarLeftButton" parent="MainMenuBarArtFrame" id="87">
 		<Anchors>
-			<Anchor point="TOP" relativeTo="BarButton2" relativePoint="BOTTOM">
+			<Anchor point="TOP" relativeTo="BarLeftButton2" relativePoint="BOTTOM">
 				<Offset>
 					<AbsDimension x="0" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 	</CheckButton>
-	<CheckButton name="BarButton4" inherits="BarButton" parent="MainMenuBarArtFrame" id="88">
+	<CheckButton name="BarLeftButton4" inherits="BarLeftButton" parent="MainMenuBarArtFrame" id="88">
 		<Anchors>
-			<Anchor point="TOP" relativeTo="BarButton3" relativePoint="BOTTOM">
+			<Anchor point="TOP" relativeTo="BarLeftButton3" relativePoint="BOTTOM">
 				<Offset>
 					<AbsDimension x="0" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 	</CheckButton>		
-	<CheckButton name="BarButton5" inherits="BarButton" parent="MainMenuBarArtFrame" id="89">
+	<CheckButton name="BarLeftButton5" inherits="BarLeftButton" parent="MainMenuBarArtFrame" id="89">
 		<Anchors>
-			<Anchor point="TOP" relativeTo="BarButton4" relativePoint="BOTTOM">
+			<Anchor point="TOP" relativeTo="BarLeftButton4" relativePoint="BOTTOM">
 				<Offset>
 					<AbsDimension x="0" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 	</CheckButton>
-	<CheckButton name="BarButton6" inherits="BarButton" parent="MainMenuBarArtFrame" id="90">
+	<CheckButton name="BarLeftButton6" inherits="BarLeftButton" parent="MainMenuBarArtFrame" id="90">
 		<Anchors>
-			<Anchor point="TOP" relativeTo="BarButton5" relativePoint="BOTTOM">
+			<Anchor point="TOP" relativeTo="BarLeftButton5" relativePoint="BOTTOM">
 				<Offset>
 					<AbsDimension x="0" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 	</CheckButton>
-	<CheckButton name="BarButton7" inherits="BarButton" parent="MainMenuBarArtFrame" id="91">
+	<CheckButton name="BarLeftButton7" inherits="BarLeftButton" parent="MainMenuBarArtFrame" id="91">
 		<Anchors>
-			<Anchor point="TOP" relativeTo="BarButton6" relativePoint="BOTTOM">
+			<Anchor point="TOP" relativeTo="BarLeftButton6" relativePoint="BOTTOM">
 				<Offset>
 					<AbsDimension x="0" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 	</CheckButton>
-	<CheckButton name="BarButton8" inherits="BarButton" parent="MainMenuBarArtFrame" id="92">
+	<CheckButton name="BarLeftButton8" inherits="BarLeftButton" parent="MainMenuBarArtFrame" id="92">
 		<Anchors>
-			<Anchor point="TOP" relativeTo="BarButton7" relativePoint="BOTTOM">
+			<Anchor point="TOP" relativeTo="BarLeftButton7" relativePoint="BOTTOM">
 				<Offset>
 					<AbsDimension x="0" y="0"/>
 				</Offset>
@@ -101,41 +124,150 @@
 		</Anchors>
 
 	</CheckButton>		
-	<CheckButton name="BarButton9" inherits="BarButton" parent="MainMenuBarArtFrame" id="93">
+	<CheckButton name="BarLeftButton9" inherits="BarLeftButton" parent="MainMenuBarArtFrame" id="93">
 		<Anchors>
-			<Anchor point="TOP" relativeTo="BarButton8" relativePoint="BOTTOM">
+			<Anchor point="TOP" relativeTo="BarLeftButton8" relativePoint="BOTTOM">
 				<Offset>
 					<AbsDimension x="0" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 	</CheckButton>
-	<CheckButton name="BarButton10" inherits="BarButton" parent="MainMenuBarArtFrame" id="94">
+	<CheckButton name="BarLeftButton10" inherits="BarLeftButton" parent="MainMenuBarArtFrame" id="94">
 		<Anchors>
-			<Anchor point="TOP" relativeTo="BarButton9" relativePoint="BOTTOM">
+			<Anchor point="TOP" relativeTo="BarLeftButton9" relativePoint="BOTTOM">
 				<Offset>
 					<AbsDimension x="0" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 	</CheckButton>
-	<CheckButton name="BarButton11" inherits="BarButton" parent="MainMenuBarArtFrame" id="95">
+	<CheckButton name="BarLeftButton11" inherits="BarLeftButton" parent="MainMenuBarArtFrame" id="95">
 		<Anchors>
-			<Anchor point="TOP" relativeTo="BarButton10" relativePoint="BOTTOM">
+			<Anchor point="TOP" relativeTo="BarLeftButton10" relativePoint="BOTTOM">
 				<Offset>
 					<AbsDimension x="0" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 	</CheckButton>
-	<CheckButton name="BarButton12" inherits="BarButton" parent="MainMenuBarArtFrame" id="96">
+	<CheckButton name="BarLeftButton12" inherits="BarLeftButton" parent="MainMenuBarArtFrame" id="96">
 		<Anchors>
-			<Anchor point="TOP" relativeTo="BarButton11" relativePoint="BOTTOM">
+			<Anchor point="TOP" relativeTo="BarLeftButton11" relativePoint="BOTTOM">
 				<Offset>
 					<AbsDimension x="0" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 	</CheckButton>					
+	
+	<CheckButton name="BarRightButton1" inherits="BarRightButton" parent="MainMenuBarArtFrame" id="109">
+		<Anchors>
+			<Anchor point="TOPRIGHT" relativeTo="UIParent" relativePoint="TOPRIGHT">
+				<Offset>
+					<AbsDimension x="0" y="0"/> -- Neshke
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</CheckButton>
+	<CheckButton name="BarRightButton2" inherits="BarRightButton" parent="MainMenuBarArtFrame" id="110">
+		<Anchors>
+			<Anchor point="TOP" relativeTo="BarRightButton1" relativePoint="BOTTOM">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</CheckButton>
+	<CheckButton name="BarRightButton3" inherits="BarRightButton" parent="MainMenuBarArtFrame" id="111">
+		<Anchors>
+			<Anchor point="TOP" relativeTo="BarRightButton2" relativePoint="BOTTOM">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</CheckButton>		
+	<CheckButton name="BarRightButton4" inherits="BarRightButton" parent="MainMenuBarArtFrame" id="112">
+		<Anchors>
+			<Anchor point="TOP" relativeTo="BarRightButton3" relativePoint="BOTTOM">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</CheckButton>		
+	<CheckButton name="BarRightButton5" inherits="BarRightButton" parent="MainMenuBarArtFrame" id="113">
+		<Anchors>
+			<Anchor point="TOP" relativeTo="BarRightButton4" relativePoint="TOP">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</CheckButton>
+	<CheckButton name="BarRightButton6" inherits="BarRightButton" parent="MainMenuBarArtFrame" id="114">
+		<Anchors>
+			<Anchor point="TOP" relativeTo="BarRightButton5" relativePoint="BOTTOM">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</CheckButton>
+	<CheckButton name="BarRightButton7" inherits="BarRightButton" parent="MainMenuBarArtFrame" id="115">
+		<Anchors>
+			<Anchor point="TOP" relativeTo="BarRightButton6" relativePoint="BOTTOM">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</CheckButton>		
+	<CheckButton name="BarRightButton8" inherits="BarRightButton" parent="MainMenuBarArtFrame" id="116">
+		<Anchors>
+			<Anchor point="TOP" relativeTo="BarRightButton7" relativePoint="BOTTOM">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</CheckButton>		
+	<CheckButton name="BarRightButton9" inherits="BarRightButton" parent="MainMenuBarArtFrame" id="117">
+		<Anchors>
+			<Anchor point="TOP" relativeTo="BarRightButton8" relativePoint="TOP">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</CheckButton>
+	<CheckButton name="BarRightButton10" inherits="BarRightButton" parent="MainMenuBarArtFrame" id="118">
+		<Anchors>
+			<Anchor point="TOP" relativeTo="BarRightButton9" relativePoint="BOTTOM">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</CheckButton>
+	<CheckButton name="BarRightButton11" inherits="BarRightButton" parent="MainMenuBarArtFrame" id="119">
+		<Anchors>
+			<Anchor point="TOP" relativeTo="BarRightButton10" relativePoint="BOTTOM">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</CheckButton>		
+	<CheckButton name="BarRightButton12" inherits="BarRightButton" parent="MainMenuBarArtFrame" id="120">
+		<Anchors>
+			<Anchor point="TOP" relativeTo="BarButton11" relativePoint="BOTTOM">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>				
+	</CheckButton>
 	
 </Ui>
