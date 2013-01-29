@@ -1,0 +1,7 @@
+## Interface: 1500
+## Title: Rauen's ButtonLock
+## Author: Rauen
+## Notes: ButtonLock
+## SavedVariables: ButtonLock_Config
+## Dependencies: Rauen_Library
+ButtonLock.xml

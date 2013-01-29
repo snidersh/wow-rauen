@@ -1,0 +1,8 @@
+## Interface: 1500
+## Title: Rauen's PetAttack
+## Author: Rauen
+## Notes: PetAttack
+## SavedVariables: PetAttack_Config
+## Dependencies: Rauen_Library
+PetAttack.xml
+paUI.xml

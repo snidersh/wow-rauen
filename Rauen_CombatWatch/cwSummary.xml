@@ -1,0 +1,696 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xsi:schemaLocation="http://www.blizzard.com/wow/ui/"> 
+
+	<Script file="cwSummary.lua"/>
+	
+	<!-- Templates -->
+	<Frame name="cwSummary_StatTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="10" y="10"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentText" inherits="GameFontNormalSmall" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="LEFT">
+							<Offset>
+								<AbsDimension x="10" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Button name="cwSummaryBuff_ButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="30" y="30"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentIcon"/>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				cwSummaryBuffButton_OnLoad();
+			</OnLoad>
+			<OnUpdate>
+				cwSummaryBuffButton_OnUpdate();
+			</OnUpdate>
+			<OnClick>
+				cwSummaryBuffButton_OnClick();
+			</OnClick>
+			<OnEnter>
+				GameTooltip_SetDefaultAnchor(GameTooltip, this);
+				GameTooltip:SetText("CombatWatch", 1.0, 1.0, 1.0);
+				GameTooltip:AddLine("Show Combat Statistics", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, 1);
+				GameTooltip:Show();
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</Button>
+	<FontString name="cwSummaryBuff_DurationTemplate" inherits="GameFontNormalSmall" virtual="true">
+		<Anchors>
+			<Anchor point="TOP"/>
+		</Anchors>
+	</FontString>
+	<!-- Templates -->
+
+	<Frame name="cwSummaryBuff" parent="UIParent" frameStrata="LOW" toplevel="true" hidden="true">
+		<Size>
+			<AbsDimension x="50" y="50"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPRIGHT" relativeTo="UIParent" relativePoint="TOPRIGHT">
+				<Offset>
+					<AbsDimension x="-205" y="-13"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Duration" inherits="cwSummaryBuff_DurationTemplate"/>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="$parent_Button" inherits="cwSummaryBuff_ButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="0" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				cwSummaryBuff_OnLoad();
+			</OnLoad>
+			<OnShow>
+				cwSummaryBuff_OnShow();
+			</OnShow>
+			<OnUpdate>
+				cwSummaryBuff_OnUpdate(arg1);
+			</OnUpdate>
+		</Scripts>
+	</Frame>
+	
+	<Frame name="cwSummary" toplevel="true" frameStrata="HIGH" movable="true" enableMouse="true" hidden="true" parent="UIParent">
+		<Size>
+			<AbsDimension x="370" y="124" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOP" relativeTo="UIParent" relativePoint="TOP">
+				<Offset>
+					<AbsDimension x="0" y="-80"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<TitleRegion setAllPoints="true" />
+		<Backdrop bgFile="Interface\Addons\Rauen_ConfigMenu\Skin\Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />	
+				<Size>
+					<AbsDimension x="128" y="17" />
+				</Size>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+		</Layers>
+		<Frames>
+		
+			<Frame name="cwSummary_Name" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="10" y="-15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			
+			<Frame name="cwSummary_StatDPS" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="10" y="-32"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatDPS_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatDPS" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="17" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatDur" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatDPS" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatDur_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatDur" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="40" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatXP" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatDur" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-35"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatXP_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatXP" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="15" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatKillXP" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatXP" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatKillXP_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatKillXP" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="28" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			
+			<Frame name="cwSummary_StatBlock" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="100" y="-32"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatBlock_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatBlock" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="37" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatParry" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatBlock" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatParry_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatParry" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="37" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatDodge" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatParry" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatDodge_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatDodge" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="37" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatEvade" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatDodge" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatEvade_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatEvade" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="37" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatMiss" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatEvade" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatMiss_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatMiss" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="37" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatResist" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatMiss" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatResist_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatResist" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="37" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			
+			<Frame name="cwSummary_StatHit" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="170" y="-32"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatHit_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatHit" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="20" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatCrit" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatHit" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatCrit_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatCrit" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="20" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatSpellHit" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatCrit" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatSpellHit_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatSpellHit" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="47" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatSpellCrit" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatSpellHit" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatSpellCrit_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatSpellCrit" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="47" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatTotalHit" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatSpellCrit" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatTotalHit_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatTotalHit" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="47" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatAverage" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatTotalHit" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			
+			<Frame name="cwSummary_StatDam" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="250" y="-32"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatCritDam" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatDam" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatSpellDam" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatCritDam" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatSpellCritDam" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatSpellDam" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatTotalDam" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatSpellCritDam" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatAverageDam" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatTotalDam" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			
+			<Frame name="cwSummary_StatDamP" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="310" y="-32"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatCritDamP" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatDamP" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatSpellDamP" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatCritDamP" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatSpellCritDamP" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatSpellDamP" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwSummary_StatTotalDamP" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary_StatSpellCritDamP" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			
+			<Button name="cwSummary_StyleButton">
+				<Size>
+					<AbsDimension x="10" y="10"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwSummary" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="9" y="-8"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						cwSummary_Style();
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-MinusButton-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-MinusButton-Down"/>
+				<DisabledTexture file="Interface\Buttons\UI-MinusButton-Disabled"/>
+				<HighlightTexture alphaMode="ADD" file="Interface\Buttons\UI-PlusButton-Hilight"/>
+			</Button>
+			
+			<Button name="cwSummary_CloseButton" inherits="UIPanelCloseButton">
+				<Size>
+					<AbsDimension x="24" y="24"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="cwSummary">>
+						<Offset>
+							<AbsDimension x="-5" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						cwSummary_Close();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				cwSummary_OnLoad();
+			</OnLoad>
+			<OnShow>
+				cwSummary_OnShow();
+			</OnShow>
+			<OnClick>
+				cwSummary_OnClick();
+			</OnClick>
+			<OnUpdate>
+				cwSummary_OnUpdate();
+			</OnUpdate>
+		</Scripts>
+	</Frame>
+	
+	<Frame name="cwPetSummary" toplevel="true" frameStrata="LOW" movable="false" enableMouse="true" hidden="false" parent="cwSummary">
+		<Size>
+			<AbsDimension x="370" y="65" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOP" relativeTo="cwSummary" relativePoint="BOTTOM">
+				<Offset>
+					<AbsDimension x="0" y="15"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />	
+				<Size>
+					<AbsDimension x="128" y="17" />
+				</Size>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+		</Layers>
+		<Frames>
+			<Frame name="cwPetSummary_Name" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwPetSummary" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="10" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwPetSummary_StatDPS" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwPetSummary_Name" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwPetSummary_StatDPS_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwPetSummary_StatDPS" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="17" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			
+			<Frame name="cwPetSummary_StatHit" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwPetSummary" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="100" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwPetSummary_StatHit_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwPetSummary_StatHit" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="20" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwPetSummary_StatCrit" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwPetSummary_StatHit" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwPetSummary_StatCrit_Value" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwPetSummary_StatCrit" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="20" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			
+			<Frame name="cwPetSummary_StatDam" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwPetSummary" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="160" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			<Frame name="cwPetSummary_StatCritDam" inherits="cwSummary_StatTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="cwPetSummary_StatDam" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Frame>
+			
+		</Frames>
+	</Frame>
+	
+</Ui>

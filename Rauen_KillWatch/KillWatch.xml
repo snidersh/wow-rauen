@@ -1,0 +1,49 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ C:ProjectsWoWBinInterfaceFrameXMLUI.xsd">
+
+	<Script file="_Version.lua"/>
+	<Script file="KillWatch.lua"/>
+
+	<Frame name="Frame_KillWatch" hidden="false">
+		<Scripts>
+			<OnLoad>
+				KillWatch_OnLoad();
+			</OnLoad>
+			<OnEvent>
+				KillWatch_OnEvent(event);
+			</OnEvent>
+		</Scripts>
+	</Frame>
+	<Frame name="KillWatch_Tooltip" parent="GameTooltip">
+		<Scripts>
+			<OnShow>
+				KillWatch_OnShow();
+			</OnShow>
+			<OnHide>
+				KillWatch_OnHide();
+			</OnHide>
+		</Scripts>
+	</Frame>
+	<Frame name="KillWatch_MoneyFrame1" inherits="SmallMoneyFrameTemplate" parent="GameTooltip" hidden="true">
+		<Anchors>
+			<Anchor point="LEFT" relativeTo="KillWatch_Tooltip" relativePoint="LEFT"/>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				SmallMoneyFrame_OnLoad();
+				MoneyFrame_SetType("STATIC");
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="KillWatch_MoneyFrame2" inherits="SmallMoneyFrameTemplate" parent="GameTooltip" hidden="true">
+		<Anchors>
+			<Anchor point="LEFT" relativeTo="KillWatch_Tooltip" relativePoint="LEFT"/>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				SmallMoneyFrame_OnLoad();
+				MoneyFrame_SetType("STATIC");
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+</Ui>

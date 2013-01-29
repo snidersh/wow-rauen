@@ -1,0 +1,407 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xsi:schemaLocation="http://www.blizzard.com/wow/ui/"> 
+
+	<Script file="pdUI.lua"/>
+	
+	<!-- Templates -->
+	<CheckButton name="pdUI_CheckTemplate" inherits="UICheckButtonTemplate" virtual="true">
+		<HitRectInsets>
+			<AbsInset left="0" right="-100" top="0" bottom="0"/>
+		</HitRectInsets>
+		<Scripts>
+			<OnClick>
+				pdUI_CheckButtonOnClick();
+			</OnClick>
+			<OnEnter>
+				if ( this.tooltipText ) then
+					GameTooltip:SetOwner(this, "ANCHOR_LEFT");
+					GameTooltip:SetBackdropColor(0.0, 0.0, 0.5);
+					GameTooltip:SetText(this.tooltipText, 1.0, 1.0, 1.0);
+				end
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</CheckButton>
+	<Slider name="pdUI_SliderTemplate" inherits="OptionsSliderTemplate" virtual="true">
+		<Scripts>
+			<OnEnter>
+				if ( this.tooltipText ) then
+					GameTooltip:SetOwner(this, "ANCHOR_LEFT");
+					GameTooltip:SetBackdropColor(0.0, 0.0, 0.5);
+					GameTooltip:SetText(this.tooltipText, 1.0, 1.0, 1.0);
+				end
+			</OnEnter>
+			<OnValueChanged>	
+				pdUI_SliderOnValueChanged();
+			</OnValueChanged>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</Slider>
+	<EditBox name="pdUI_EditTemplate" autoFocus="false" inherits="InputBoxTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="100" y="16"/>
+		</Size>
+		<Scripts>
+			<OnEnterPressed>
+				pdUI_SaveText();		
+				this:ClearFocus();
+			</OnEnterPressed>
+		</Scripts>
+		<FontString inherits="ChatFontNormal" bytes="64"/>
+	</EditBox>
+	<Frame name="pdUI_DropDownTemplate" inherits="UIDropDownMenuTemplate" enableMouse="true" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentLabel" inherits="GameFontNormalSmall" text="">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
+							<Offset>
+								<AbsDimension x="21" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnShow>
+				pdUI_DropDownOnShow();
+			</OnShow>
+		</Scripts>
+	</Frame>
+	<Frame name="pdUI_BoxTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentTitle" inherits="GameFontHighlight">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
+							<Offset>
+								<AbsDimension x="9" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+			<TileSize>
+				<AbsValue val="16"/>
+			</TileSize>
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5"/>
+			</BackgroundInsets>
+		</Backdrop>
+		<Scripts>
+			<OnLoad>
+				this:SetBackdropBorderColor(0.4, 0.4, 0.4);
+				this:SetBackdropColor(0.2, 0.2, 0.2);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<!-- Templates -->
+	
+	<Frame name="pdUI" toplevel="true" frameStrata="LOW" movable="false" enableMouse="true" hidden="true" parent="UIParent">
+		<Size>
+			<AbsDimension x="400" y="400" />
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Backdrop bgFile="Interface\Addons\Rauen_ConfigMenu\Skin\Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border"
+			tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />	
+				<Size>
+					<AbsDimension x="128" y="17" />
+				</Size>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="pdUI_Title" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="330" y="64" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset>
+								<AbsDimension x="0" y="12" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString name="pdUI_TitleText" inherits="GameFontNormal" text="Rauen's PetDefend">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="pdUI">
+							<Offset>
+								<AbsDimension x="0" y="-3" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+
+		<Frames>
+			
+			<CheckButton name="pdUI_CheckEnable" inherits="pdUI_CheckTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="pdUI" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="10" y="-10" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+
+			<Frame name="pdUI_DefendBox" inherits="pdUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="360" y="90"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="pdUI_CheckEnable" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="10" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<CheckButton name="pdUI_CheckParty" inherits="pdUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_DefendBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="pdUI_CheckMember" inherits="pdUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckParty" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<EditBox name="pdUI_MemberEdit" inherits="pdUI_EditTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckMember" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="100" y="-9"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</EditBox>
+				</Frames>
+			</Frame>
+			<Frame name="pdUI_DefendBox1" inherits="pdUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="360" y="90"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="pdUI_DefendBox" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<CheckButton name="pdUI_CheckAlways" inherits="pdUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_DefendBox1" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="pdUI_CheckLowHealth" inherits="pdUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckAlways" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<Slider name="pdUI_HealthSlider" inherits="pdUI_SliderTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckLowHealth" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="150" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</Slider>
+				</Frames>
+			</Frame>
+			<Frame name="pdUI_TauntBox" inherits="pdUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="360" y="90"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="pdUI_DefendBox1" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<CheckButton name="pdUI_CheckGrowl" inherits="pdUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_TauntBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<EditBox name="pdUI_GrowlEdit" inherits="pdUI_EditTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckGrowl" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="75" y="-8"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</EditBox>
+					<CheckButton name="pdUI_CheckCower" inherits="pdUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckGrowl" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<EditBox name="pdUI_CowerEdit" inherits="pdUI_EditTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckCower" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="75" y="-8"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</EditBox>
+					<Slider name="pdUI_CowerSlider" inherits="pdUI_SliderTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckCower" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="175" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</Slider>
+				</Frames>
+			</Frame>
+			<Frame name="pdUI_AlertBox" inherits="pdUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="360" y="50"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="pdUI_TauntBox" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<CheckButton name="pdUI_CheckAlert" inherits="pdUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_AlertBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="pdUI_AlertDropDown" inherits="pdUI_DropDownTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="pdUI_CheckAlert" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="120" y="-2" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+				</Frames>
+			</Frame>
+			
+			 <Button name="pdUI_CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="pdUI">>
+						<Offset>
+							<AbsDimension x="-5" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if ( ColorPickerFrame:IsVisible() ) then
+							ColorPickerFrame:Hide();
+						end
+						pdUI_Close();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="pdUI_SaveButton" inherits="GameMenuButtonTemplate" text="Close">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="pdUI">
+						<Offset>
+							<AbsDimension x="-15" y="15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if ( ColorPickerFrame:IsVisible() ) then
+							ColorPickerFrame:Hide();
+						end
+						pdUI_Close();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="pdUI_ResetButton" inherits="GameMenuButtonTemplate" text="Defaults">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="pdUI">
+						<Offset>
+							<AbsDimension x="15" y="15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						pdUI_Reset();
+					</OnClick>
+				</Scripts>
+			</Button>
+
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				pdUI_OnLoad();
+			</OnLoad>
+			<OnShow>
+				pdUI_OnShow();
+			</OnShow>
+		</Scripts>
+	</Frame>
+	
+</Ui>

@@ -1,0 +1,38 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+
+	<Script file="ButtonLock.lua"/> 
+
+	<CheckButton name="ButtonLock_CheckButton" inherits="OptionsCheckButtonTemplate" parent="MainMenuBarArtFrame">
+		<Size>
+			<AbsDimension x="20" y="20"/>
+		</Size>
+		<HitRectInsets>
+			<AbsInset left="0" right="0" top="0" bottom="0"/>
+		</HitRectInsets>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT">
+				<Offset>
+					<AbsDimension x="-4" y="37"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				ButtonLock_OnLoad();
+			</OnLoad>
+			<OnEvent>
+				ButtonLock_OnEvent(event);
+			</OnEvent>
+			<OnClick>
+				ButtonLock_OnClick();
+			</OnClick>
+			<OnEnter>
+				ButtonLock_OnEnter();						
+			</OnEnter>
+			<OnLeave>
+				ButtonLock_OnLeave();
+			</OnLeave>
+		</Scripts>
+	</CheckButton>
+
+</Ui>

@@ -1,0 +1,9 @@
+## Interface: 1500
+## Title: Rauen's ActionBars
+## Author: Rauen
+## Notes: ActionBars
+## SavedVariables: Bars_Config
+## Dependencies: Rauen_Library
+ActionBars.xml
+abUI.xml
+

@@ -1,0 +1,8 @@
+## Interface: 1500
+## Title: Rauen's KillWatch
+## Author: Rauen
+## Notes: KillWatch
+## SavedVariables: KillWatch_Config
+## Dependencies: Rauen_Library, Rauen_Data
+KillWatch.xml
+kwUI.xml

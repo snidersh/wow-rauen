@@ -1,0 +1,8 @@
+## Interface: 1500
+## Title: Rauen's PetFeed
+## Author: Rauen
+## Notes: PetFeed
+## SavedVariables: PetFeed_Config, PetFeed_Foods_Meat, PetFeed_Foods_Fish, PetFeed_Foods_Bread, PetFeed_Foods_Cheese, PetFeed_Foods_Fruit, PetFeed_Foods_Fungus
+## Dependencies: Rauen_Library
+PetFeed.xml
+pfUI.xml

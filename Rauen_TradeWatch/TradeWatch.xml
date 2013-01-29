@@ -1,0 +1,403 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ C:ProjectsWoWBinInterfaceFrameXMLUI.xsd">
+
+	<Script file="_Version.lua"/>
+	<Script file="TradeWatch.lua"/>
+
+	<FontString name="TradeWatchFontTemplate" inherits="GameFontHighlight" virtual="true" justifyH="LEFT">
+		<Size>
+			<AbsDimension x="0" y="13"/>
+		</Size>
+	</FontString>
+
+	<Frame name="Frame_TradeWatchCheck_Trades1" toplevel="true" parent="TradeSkillFrame" hidden="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer>
+				<Texture file="Interface\Buttons\UI-CheckBox-Check">
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="Frame_TradeWatchCheck_Trades2" toplevel="true" parent="TradeSkillFrame" hidden="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer>
+				<Texture file="Interface\Buttons\UI-CheckBox-Check">
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="Frame_TradeWatchCheck_Trades3" toplevel="true" parent="TradeSkillFrame" hidden="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer>
+				<Texture file="Interface\Buttons\UI-CheckBox-Check">
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="Frame_TradeWatchCheck_Trades4" toplevel="true" parent="TradeSkillFrame" hidden="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer>
+				<Texture file="Interface\Buttons\UI-CheckBox-Check">
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<Frame name="Frame_TradeWatchCheck_Crafts1" toplevel="true" parent="CraftFrame" hidden="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer>
+				<Texture file="Interface\Buttons\UI-CheckBox-Check">
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="Frame_TradeWatchCheck_Crafts2" toplevel="true" parent="CraftFrame" hidden="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer>
+				<Texture file="Interface\Buttons\UI-CheckBox-Check">
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="Frame_TradeWatchCheck_Crafts3" toplevel="true" parent="CraftFrame" hidden="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer>
+				<Texture file="Interface\Buttons\UI-CheckBox-Check">
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="Frame_TradeWatchCheck_Crafts4" toplevel="true" parent="CraftFrame" hidden="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer>
+				<Texture file="Interface\Buttons\UI-CheckBox-Check">
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<Button name="TradeWatchButton1" parent="Frame_TradeWatch">
+		<Size>
+			<AbsDimension x="50" y="25"/>
+		</Size>
+		<Scripts>
+			<OnClick>
+				TradeWatch_OnClick(1);
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="TradeWatchButton2" parent="Frame_TradeWatch">
+		<Size>
+			<AbsDimension x="50" y="25"/>
+		</Size>
+		<Scripts>
+			<OnClick>
+				TradeWatch_OnClick(2);
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="TradeWatchButton3" parent="Frame_TradeWatch">
+		<Size>
+			<AbsDimension x="50" y="25"/>
+		</Size>
+		<Scripts>
+			<OnClick>
+				TradeWatch_OnClick(3);
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="TradeWatchButton4" parent="Frame_TradeWatch">
+		<Size>
+			<AbsDimension x="50" y="25"/>
+		</Size>
+		<Scripts>
+			<OnClick>
+				TradeWatch_OnClick(4);
+			</OnClick>
+		</Scripts>
+	</Button>
+
+	<Frame name="Frame_TradeWatch" toplevel="false" parent="UIParent" hidden="false">
+		<Size>
+			<AbsDimension x="280" y="20"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPRIGHT" relativeTo="MinimapCluster" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="0" y="10"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="TradeWatchItemName1" inherits="GameFontNormal" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="0" y="13"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine11" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchItemName1" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine12" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine11" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine13" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine12" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine14" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine13" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine15" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine14" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine16" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine15" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine17" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine16" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine18" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine17" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine19" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine18" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine110" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine19" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+
+				<FontString name="TradeWatchItemName2" inherits="GameFontNormal" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="0" y="13"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine21" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchItemName2" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine22" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine21" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine23" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine22" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine24" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine23" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine25" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine24" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine26" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine25" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine27" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine26" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine28" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine27" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine29" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine28" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine210" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine29" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+
+				<FontString name="TradeWatchItemName3" inherits="GameFontNormal" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="0" y="13"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine31" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchItemName3" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine32" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine31" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine33" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine32" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine34" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine33" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine35" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine34" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine36" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine35" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine37" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine36" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine38" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine37" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine39" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine38" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine310" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine39" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+
+				<FontString name="TradeWatchItemName4" inherits="GameFontNormal" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="0" y="13"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine41" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchItemName4" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine42" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine41" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine43" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine42" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine44" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine43" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine45" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine44" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine46" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine45" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine47" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine46" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine48" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine47" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine49" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine48" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="TradeWatchLine410" inherits="TradeWatchFontTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="TradeWatchLine49" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				TradeWatch_OnLoad();
+			</OnLoad>
+			<OnEvent>
+				TradeWatch_OnEvent(event);
+			</OnEvent>
+		</Scripts>
+	</Frame>
+
+</Ui>

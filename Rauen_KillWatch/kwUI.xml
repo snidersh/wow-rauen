@@ -1,0 +1,481 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xsi:schemaLocation="http://www.blizzard.com/wow/ui/"> 
+
+	<Script file="kwUI.lua"/>
+	
+	<!-- Templates -->
+	<CheckButton name="kwUI_CheckTemplate" inherits="UICheckButtonTemplate" virtual="true">
+		<HitRectInsets>
+			<AbsInset left="0" right="-100" top="0" bottom="0"/>
+		</HitRectInsets>
+		<Scripts>
+			<OnClick>
+				kwUI_CheckButtonOnClick();
+			</OnClick>
+			<OnEnter>
+				if ( this.tooltipText ) then
+					GameTooltip:SetOwner(this, "ANCHOR_LEFT");
+					GameTooltip:SetBackdropColor(0.0, 0.0, 0.5);
+					GameTooltip:SetText(this.tooltipText, 1.0, 1.0, 1.0);
+				end
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</CheckButton>
+	<Frame name="kwUI_DropDownTemplate" inherits="UIDropDownMenuTemplate" enableMouse="true" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentLabel" inherits="GameFontNormalSmall" text="">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT">
+							<Offset>
+								<AbsDimension x="-5" y="3"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnShow>
+				kwUI_DropDownOnShow();
+			</OnShow>
+		</Scripts>
+	</Frame>
+	<Frame name="kwUI_BoxTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentTitle" inherits="GameFontHighlight">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
+							<Offset>
+								<AbsDimension x="9" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+			<TileSize>
+				<AbsValue val="16"/>
+			</TileSize>
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5"/>
+			</BackgroundInsets>
+		</Backdrop>
+		<Scripts>
+			<OnLoad>
+				this:SetBackdropBorderColor(0.4, 0.4, 0.4);
+				this:SetBackdropColor(0.2, 0.2, 0.2);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Button name="kwUI_ColorSwatchTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parent_SwatchBg">
+					<Size>
+						<AbsDimension x="14" y="14"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Color r="0.5" g="0.5" b="0.5"/>
+				</Texture>
+				<FontString name="$parentText" inherits="GameFontNormalSmall" text="">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
+							<Offset>
+								<AbsDimension x="21" y="-15"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnClick>
+				kwUI_OpenColorPicker(this);
+			</OnClick>
+			<OnEnter>
+				getglobal(this:GetName().."_SwatchBg"):SetVertexColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
+			</OnEnter>
+			<OnLeave>
+				getglobal(this:GetName().."_SwatchBg"):SetVertexColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+			</OnLeave>
+		</Scripts>
+		<NormalTexture name="$parentNormalTexture" file="Interface\ChatFrame\ChatFrameColorSwatch"/>
+	</Button>
+	<!-- Templates -->
+	
+	<Frame name="kwUI" toplevel="true" frameStrata="LOW" movable="false" enableMouse="true" hidden="true" parent="UIParent">
+		<Size>
+			<AbsDimension x="400" y="400" />
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Backdrop bgFile="Interface\Addons\Rauen_ConfigMenu\Skin\Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border"
+			tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />	
+				<Size>
+					<AbsDimension x="128" y="17" />
+				</Size>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="kwUI_Title" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="330" y="64" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset>
+								<AbsDimension x="0" y="12" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString name="kwUI_TitleText" inherits="GameFontNormal" text="Rauen's KillWatch">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="kwUI">
+							<Offset>
+								<AbsDimension x="0" y="-3" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+
+		<Frames>
+			
+			<CheckButton name="kwUI_CheckEnable" inherits="kwUI_CheckTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="kwUI" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="10" y="-10" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+
+			<Frame name="kwUI_DisplayBox" inherits="kwUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="440" y="120"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="kwUI_CheckEnable" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="10" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<CheckButton name="kwUI_CheckZone" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_DisplayBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_CheckKills" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_CheckZone" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-5" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_CheckDur" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_CheckZone" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="120" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_CheckXP" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_CheckDur" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-5" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_CheckCoins" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_CheckKills" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-5" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_CheckGraphicCoins" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_CheckCoins" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="120" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+				</Frames>
+			</Frame>
+			<Frame name="kwUI_ColorBox" inherits="kwUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="440" y="50"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="kwUI_DisplayBox" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<Button name="kwUI_Current" inherits="kwUI_ColorSwatchTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_ColorBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="20" y="-15" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</Button>
+					<Button name="kwUI_Old" inherits="kwUI_ColorSwatchTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_Current" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="150" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</Button>
+				</Frames>
+			</Frame>
+			<Frame name="kwUI_LootBox" inherits="kwUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="440" y="85"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="kwUI_ColorBox" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<CheckButton name="kwUI_CheckLoot" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_LootBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_LootDropDown" inherits="kwUI_DropDownTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_CheckLoot" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="50" y="-3" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_CheckQuality" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_LootDropDown" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="70" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_CheckLootPercent" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_CheckLoot" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-5" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_CheckValue" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_CheckLootPercent" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="120" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_CheckGraphicValue" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_CheckValue" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="108" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+				</Frames>
+			</Frame>
+			<Frame name="kwUI_RatingsBox" inherits="kwUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="440" y="90"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="kwUI_LootBox" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<CheckButton name="kwUI_CheckRating" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_RatingsBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_CheckRatingCoin" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_CheckRating" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="120" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_CheckRatingXP" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_CheckRating" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-5" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="kwUI_CheckRatingLoot" inherits="kwUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="kwUI_CheckRatingXP" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="120" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+				</Frames>
+			</Frame>
+			
+			 <Button name="kwUI_CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="kwUI">>
+						<Offset>
+							<AbsDimension x="-5" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if ( ColorPickerFrame:IsVisible() ) then
+							ColorPickerFrame:Hide();
+						end
+						kwUI_Close();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="kwUI_SaveButton" inherits="GameMenuButtonTemplate" text="Close">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="kwUI">
+						<Offset>
+							<AbsDimension x="-15" y="15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if ( ColorPickerFrame:IsVisible() ) then
+							ColorPickerFrame:Hide();
+						end
+						kwUI_Close();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="kwUI_ResetButton" inherits="GameMenuButtonTemplate" text="Defaults">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="kwUI">
+						<Offset>
+							<AbsDimension x="15" y="15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						kwUI_Reset();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="kwUI_ResetStatsButton" inherits="GameMenuButtonTemplate" text="Reset Statistics">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="kwUI">
+						<Offset>
+							<AbsDimension x="15" y="40"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						kwUI_ResetStats();
+					</OnClick>
+				</Scripts>
+			</Button>
+
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				kwUI_OnLoad();
+			</OnLoad>
+			<OnShow>
+				kwUI_OnShow();
+			</OnShow>
+		</Scripts>
+	</Frame>
+	
+</Ui>

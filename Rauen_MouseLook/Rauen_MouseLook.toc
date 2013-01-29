@@ -1,0 +1,8 @@
+## Interface: 1500
+## Title: Rauen's MouseLook
+## Author: Rauen
+## Notes: MouseLook
+## SavedVariables: MouseLook_Config
+## Dependencies: Rauen_Library
+MouseLook.xml
+mlUI.xml

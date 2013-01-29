@@ -1,0 +1,9 @@
+## Interface: 1500
+## Title: Rauen's ItemWatch
+## Author: Rauen
+## Notes: ItemWatch
+## SavedVariables: ItemWatch_Config
+## Dependencies: Rauen_Library, Rauen_Data
+ItemWatch.xml
+iwUI.xml
+

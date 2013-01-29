@@ -1,0 +1,8 @@
+## Interface: 1500
+## Title: Rauen's Data
+## Author: Rauen
+## Notes: Data
+## SavedVariables: Data_Config, KillStats, ItemStats
+## Dependencies: Rauen_Library
+Data.xml
+DataSearch.xml

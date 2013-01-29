@@ -1,0 +1,8 @@
+## Interface: 1500
+## Title: Rauen's Clock
+## Author: Rauen
+## Notes: Clock
+## SavedVariables: Clock_Config
+## Dependencies: Rauen_Library
+Clock.xml
+cUI.xml

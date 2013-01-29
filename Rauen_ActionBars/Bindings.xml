@@ -1,0 +1,88 @@
+<Bindings>
+
+	<Binding name="BARACTION_1" runOnUp="true" header="ACTIONBARS">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown(1);
+		else
+			Bars_ActionButtonUp(1);
+		end
+	</Binding>
+	<Binding name="BARACTION_2" runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown(2);
+		else
+			Bars_ActionButtonUp(2);
+		end
+	</Binding>
+		<Binding name="BARACTION_3" runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown(3);
+		else
+			Bars_ActionButtonUp(3);
+		end
+	</Binding>
+		<Binding name="BARACTION_4"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown(4);
+		else
+			Bars_ActionButtonUp(4);
+		end
+	</Binding>
+	<Binding name="BARACTION_5"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown(5);
+		else
+			Bars_ActionButtonUp(5);
+		end
+	</Binding>
+	<Binding name="BARACTION_6"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown(6);
+		else
+			Bars_ActionButtonUp(6);
+		end
+	</Binding>
+	<Binding name="BARACTION_7"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown(7);
+		else
+			Bars_ActionButtonUp(7);
+		end
+	</Binding>
+	<Binding name="BARACTION_8"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown(8);
+		else
+			Bars_ActionButtonUp(8);
+		end
+	</Binding>	
+	<Binding name="BARACTION_9"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown(9);
+		else
+			Bars_ActionButtonUp(9);
+		end
+	</Binding>
+	<Binding name="BARACTION_10"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown(10);
+		else
+			Bars_ActionButtonUp(10);
+		end
+	</Binding>
+	<Binding name="BARACTION_11"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown(11);
+		else
+			Bars_ActionButtonUp(11);
+		end
+	</Binding>
+	<Binding name="BARACTION_12"  runOnUp="true">
+		if ( keystate == "down" ) then
+			Bars_ActionButtonDown(12);
+		else
+			Bars_ActionButtonUp(12);
+		end		
+	</Binding>	
+	
+</Bindings>

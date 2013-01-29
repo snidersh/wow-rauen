@@ -1,0 +1,2 @@
+--QuestTimerFrame:ClearAllPoints();
+--QuestTimerFrame:SetPoint("TOP", "Frame_Clock", "BOTTOM", 0, -5);

@@ -1,0 +1,35 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ C:ProjectsWoWBinInterfaceFrameXMLUI.xsd">
+
+	<Script file="_Version.lua"/>
+	<Script file="Components.lua"/>
+	<Script file="ItemWatch.lua"/>
+
+	<Frame name="Frame_ItemWatch" parent="GameTooltip" hidden="false">
+  		<Scripts>
+	  		<OnLoad>
+				ItemWatch_OnLoad();
+  			</OnLoad>
+  			<OnShow>
+				ItemWatch_OnShow();
+  			</OnShow>
+  			<OnHide>
+				ItemWatch_OnHide();
+  			</OnHide>
+	  		<OnEvent>
+				ItemWatch_OnEvent();
+  			</OnEvent>
+			<OnKeyDown>
+				ItemWatch_OnKeyDown();
+			</OnKeyDown>
+    		</Scripts>
+	</Frame>
+
+	<GameTooltip name="ItemWatch_Tooltip" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentTextLeft1" inherits="GameTooltipHeaderText" hidden="true"/>
+				<FontString name="$parentTextRight1" inherits="GameTooltipHeaderText" hidden="true"/>
+			</Layer>
+		</Layers>
+	</GameTooltip>
+</Ui>

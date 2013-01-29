@@ -1,0 +1,8 @@
+## Interface: 1500
+## Title: Rauen's ConfigMenu
+## Author: Rauen
+## Notes: ConfigMenu
+## SavedVariables: ConfigMenu_Config
+## Dependencies: Rauen_Library
+ConfigMenu.xml
+ConfigMenuFrame.xml

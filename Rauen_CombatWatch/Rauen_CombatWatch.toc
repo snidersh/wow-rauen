@@ -1,0 +1,18 @@
+## Interface: 1500
+## Title: Rauen's CombatWatch
+## Author: Rauen
+## Notes: CombatWatch
+## SavedVariables: CombatWatch_Config
+## Dependencies: Rauen_Library
+CombatWatch.xml
+cwSummary.xml
+cwUI_General.xml
+cwUI_Druid.xml
+cwUI_Hunter.xml
+cwUI_Mage.xml
+cwUI_Paladin.xml
+cwUI_Priest.xml
+cwUI_Rogue.xml
+cwUI_Shaman.xml
+cwUI_Warlock.xml
+cwUI_Warrior.xml

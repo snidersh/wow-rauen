@@ -1,0 +1,9 @@
+## Interface: 1500
+## Title: Rauen's PetDefend
+## Author: Rauen
+## Notes: PetDefend
+## SavedVariables: PetDefend_Config
+## Dependencies: Rauen_Library
+PetDefend.xml
+pdUI.xml
+

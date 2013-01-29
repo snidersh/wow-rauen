@@ -1,0 +1,45 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ C:ProjectsWoWBinInterfaceFrameXMLUI.xsd">
+
+	<Script file="_Version.lua"/>
+	<Script file="MapInfo.lua"/>
+
+
+	<Frame name="MapInfoFrame" setAllPoints="true" frameStrata="TOOLTIP" parent="WorldMapFrame" hidden="false">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MapInfoCursorText" inherits="SystemFont" text="">
+					<Color r="1.0" g="1.0" b="1.0"/>
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" relativeTo="WorldMapFrame" relativePoint="BOTTOMRIGHT">
+							<Offset>
+								<AbsDimension x="-25" y="8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MapInfoPlayerText" inherits="SystemFont" text="">
+					<Color r="0.75" g="0.75" b="1.0"/>
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" relativeTo="WorldMapFrame" relativePoint="BOTTOMRIGHT">
+							<Offset>
+								<AbsDimension x="-80" y="8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				MapInfo_OnLoad();
+			</OnLoad>
+			<OnUpdate>
+				MapInfo_OnUpdate(arg1);
+			</OnUpdate>
+			<OnEvent>
+				MapInfo_OnEvent();
+			</OnEvent>
+		</Scripts>
+	</Frame>
+
+</Ui>

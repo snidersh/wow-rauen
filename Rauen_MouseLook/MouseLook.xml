@@ -1,0 +1,17 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
+
+	<Script file="_Version.lua"/>
+	<Script file="MouseLook.lua"/>
+
+	<Frame name="Frame_MouseLook" hidden="true">
+		<Scripts>
+			<OnLoad>
+				MouseLook_OnLoad();
+			</OnLoad>
+			<OnEvent>
+				MouseLook_OnEvent();
+			</OnEvent>
+		</Scripts>
+	</Frame>
+
+</Ui>

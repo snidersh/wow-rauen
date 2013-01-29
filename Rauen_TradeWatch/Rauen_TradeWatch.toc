@@ -1,0 +1,8 @@
+## Interface: 1500
+## Title: Rauen's TradeWatch
+## Author: Rauen
+## Notes: TradeWatch
+## SavedVariables: TradeWatch_Config
+## Dependencies: Rauen_Library
+TradeWatch.xml
+twUI.xml

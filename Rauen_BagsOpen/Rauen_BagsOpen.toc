@@ -1,0 +1,8 @@
+## Interface: 1500
+## Title: Rauen's BagsOpen
+## Author: Rauen
+## Notes: BagsOpen
+## SavedVariables: BagsOpen_Config
+## Dependencies: Rauen_Library
+BagsOpen.xml
+boUI.xml

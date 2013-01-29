@@ -1,0 +1,410 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xsi:schemaLocation="http://www.blizzard.com/wow/ui/"> 
+
+	<Script file="paUI.lua"/>
+	
+	<!-- Templates -->
+	<Frame name="paUI_BindingTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="560" y="25"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentLabel" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="LEFT">
+							<Offset>
+								<AbsDimension x="10" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="$parentButton" inherits="UIPanelButtonTemplate2" virtual="true">
+				<Size>
+					<AbsDimension x="200" y="22"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT">
+						<Offset>
+							<AbsDimension x="100" y="-2"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						paUI_BindingButtonOnClick(arg1);
+					</OnClick>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonUp", "RightButtonUp", "MiddleButtonUp", "Button4Up", "Button5Up");
+					</OnLoad>
+				</Scripts>
+				<NormalText inherits="GameFontHighlightSmall"/>
+				<DisabledText inherits="GameFontDisable"/>
+				<HighlightText inherits="GameFontHighlightSmall"/>
+			</Button>
+		</Frames>
+	</Frame>
+	<CheckButton name="paUI_CheckTemplate" inherits="UICheckButtonTemplate" virtual="true">
+		<HitRectInsets>
+			<AbsInset left="0" right="-100" top="0" bottom="0"/>
+		</HitRectInsets>
+		<Scripts>
+			<OnClick>
+				paUI_CheckButtonOnClick();
+			</OnClick>
+			<OnEnter>
+				if ( this.tooltipText ) then
+					GameTooltip:SetOwner(this, "ANCHOR_LEFT");
+					GameTooltip:SetBackdropColor(0.0, 0.0, 0.5);
+					GameTooltip:SetText(this.tooltipText, 1.0, 1.0, 1.0);
+				end
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</CheckButton>
+	<EditBox name="paUI_EditTemplate" autoFocus="false" inherits="InputBoxTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="100" y="16"/>
+		</Size>
+		<Scripts>
+			<OnEnterPressed>
+				paUI_SaveText();		
+				this:ClearFocus();
+			</OnEnterPressed>
+		</Scripts>
+		<FontString inherits="ChatFontNormal" bytes="64"/>
+	</EditBox>
+	<Frame name="paUI_DropDownTemplate" inherits="UIDropDownMenuTemplate" enableMouse="true" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentLabel" inherits="GameFontNormalSmall" text="">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
+							<Offset>
+								<AbsDimension x="21" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnShow>
+				paUI_DropDownOnShow();
+			</OnShow>
+		</Scripts>
+	</Frame>
+	<Frame name="paUI_BoxTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentTitle" inherits="GameFontHighlight">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
+							<Offset>
+								<AbsDimension x="9" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+			<TileSize>
+				<AbsValue val="16"/>
+			</TileSize>
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5"/>
+			</BackgroundInsets>
+		</Backdrop>
+		<Scripts>
+			<OnLoad>
+				this:SetBackdropBorderColor(0.4, 0.4, 0.4);
+				this:SetBackdropColor(0.2, 0.2, 0.2);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<!-- Templates -->
+	
+	<Frame name="paUI" toplevel="true" frameStrata="LOW" movable="false" enableMouse="true" hidden="true" parent="UIParent">
+		<Size>
+			<AbsDimension x="400" y="400" />
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Backdrop bgFile="Interface\Addons\Rauen_ConfigMenu\Skin\Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border"
+			tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />	
+				<Size>
+					<AbsDimension x="128" y="17" />
+				</Size>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="paUI_Title" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="330" y="64" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset>
+								<AbsDimension x="0" y="12" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString name="paUI_TitleText" inherits="GameFontNormal" text="Rauen's PetAttack">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="paUI">
+							<Offset>
+								<AbsDimension x="0" y="-3" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+
+		<Frames>
+			
+			<CheckButton name="paUI_CheckEnable" inherits="paUI_CheckTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="paUI" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="10" y="-10" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			
+			<Frame name="paUI_BindingBox" inherits="paUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="360" y="50"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="paUI_CheckEnable" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="10" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<Frame name="paUI_KeyBind" inherits="paUI_BindingTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_BindingBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</Frame>
+				</Frames>
+			</Frame>
+			<Frame name="paUI_SpellBox" inherits="paUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="360" y="50"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="paUI_BindingBox" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<CheckButton name="paUI_CheckCast" inherits="paUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_SpellBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<EditBox name="paUI_SpellEdit" inherits="paUI_EditTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_CheckCast" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="100" y="-9"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</EditBox>
+					<EditBox name="paUI_RankEdit" inherits="paUI_EditTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_SpellEdit" relativePoint="TOPRIGHT">
+								<Offset>
+									<AbsDimension x="0" y="0"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</EditBox>
+				</Frames>
+			</Frame>
+			<Frame name="paUI_AlertBox" inherits="paUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="360" y="135"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="paUI_SpellBox" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<CheckButton name="paUI_CheckAttackAlert" inherits="paUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_AlertBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="paUI_AttackDropDown" inherits="paUI_DropDownTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_CheckAttackAlert" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="120" y="-2" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="paUI_CheckAssistMeAlert" inherits="paUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_CheckAttackAlert" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="paUI_AssistMeDropDown" inherits="paUI_DropDownTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_CheckAssistMeAlert" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="120" y="-2" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="paUI_CheckAssistOtherAlert" inherits="paUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_CheckAssistMeAlert" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="paUI_AssistOtherDropDown" inherits="paUI_DropDownTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="paUI_CheckAssistOtherAlert" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="120" y="-2" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+				</Frames>
+			</Frame>
+			
+			 <Button name="paUI_CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="paUI">>
+						<Offset>
+							<AbsDimension x="-5" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if ( ColorPickerFrame:IsVisible() ) then
+							ColorPickerFrame:Hide();
+						end
+						paUI_Close();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="paUI_SaveButton" inherits="GameMenuButtonTemplate" text="Close">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="paUI">
+						<Offset>
+							<AbsDimension x="-15" y="15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if ( ColorPickerFrame:IsVisible() ) then
+							ColorPickerFrame:Hide();
+						end
+						paUI_Close();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="paUI_ResetKeysButton" inherits="GameMenuButtonTemplate" text="Reset KeyBinding">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="paUI">
+						<Offset>
+							<AbsDimension x="15" y="40"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						paUI_ResetKeys();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="paUI_ResetButton" inherits="GameMenuButtonTemplate" text="Defaults">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="paUI">
+						<Offset>
+							<AbsDimension x="15" y="15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						paUI_Reset();
+					</OnClick>
+				</Scripts>
+			</Button>
+
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				paUI_OnLoad();
+			</OnLoad>
+			<OnShow>
+				paUI_OnShow();
+			</OnShow>
+			<OnKeyDown>
+				paUI_OnKeyDown(button);
+			</OnKeyDown>
+		</Scripts>
+	</Frame>
+	
+</Ui>

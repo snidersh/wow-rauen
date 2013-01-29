@@ -1,0 +1,285 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xsi:schemaLocation="http://www.blizzard.com/wow/ui/"> 
+
+	<Script file="twUI.lua"/>
+	
+	<!-- Templates -->
+	<CheckButton name="twUI_CheckTemplate" inherits="UICheckButtonTemplate" virtual="true">
+		<HitRectInsets>
+			<AbsInset left="0" right="-100" top="0" bottom="0"/>
+		</HitRectInsets>
+		<Scripts>
+			<OnClick>
+				twUI_CheckButtonOnClick();
+			</OnClick>
+			<OnEnter>
+				if ( this.tooltipText ) then
+					GameTooltip:SetOwner(this, "ANCHOR_LEFT");
+					GameTooltip:SetBackdropColor(0.0, 0.0, 0.5);
+					GameTooltip:SetText(this.tooltipText, 1.0, 1.0, 1.0);
+				end
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</CheckButton>
+	<Frame name="twUI_BoxTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentTitle" inherits="GameFontHighlight">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
+							<Offset>
+								<AbsDimension x="9" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+			<TileSize>
+				<AbsValue val="16"/>
+			</TileSize>
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5"/>
+			</BackgroundInsets>
+		</Backdrop>
+		<Scripts>
+			<OnLoad>
+				this:SetBackdropBorderColor(0.4, 0.4, 0.4);
+				this:SetBackdropColor(0.2, 0.2, 0.2);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="twUI_FontTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="100" y="10"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentText" inherits="GameFontNormalSmall" text="">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentSubText" inherits="GameFontHighlightSmall" text="">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="15" y="-15"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<!-- Templates -->
+	
+	<Frame name="twUI" toplevel="true" frameStrata="LOW" movable="false" enableMouse="true" hidden="true" parent="UIParent">
+		<Size>
+			<AbsDimension x="400" y="400" />
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Backdrop bgFile="Interface\Addons\Rauen_ConfigMenu\Skin\Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border"
+			tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />	
+				<Size>
+					<AbsDimension x="128" y="17" />
+				</Size>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="twUI_Title" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="330" y="64" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset>
+								<AbsDimension x="0" y="12" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString name="twUI_TitleText" inherits="GameFontNormal" text="Rauen's TradeWatch">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="twUI">
+							<Offset>
+								<AbsDimension x="0" y="-3" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+
+		<Frames>
+			
+			<CheckButton name="twUI_CheckEnable" inherits="twUI_CheckTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="twUI" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="10" y="-10" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+
+			<Frame name="twUI_ConfigBox" inherits="twUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="360" y="90"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="twUI_CheckEnable" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="10" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<CheckButton name="twUI_CheckColor" inherits="twUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="twUI_ConfigBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="10" y="-10" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="twUI_CheckNum" inherits="twUI_CheckTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="twUI_CheckColor" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-5" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+				</Frames>
+			</Frame>
+			<Frame name="twUI_CommandsBox" inherits="twUI_BoxTemplate">
+				<Size>
+					<AbsDimension x="360" y="130"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="twUI_ConfigBox" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Frames>
+					<Frame name="twUI_FontAdd" inherits="twUI_FontTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="twUI_CommandsBox" relativePoint="TOPLEFT">
+								<Offset>
+									<AbsDimension x="20" y="-18" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</Frame>
+					<Frame name="twUI_FontRemove" inherits="twUI_FontTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="twUI_FontAdd" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-25" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</Frame>
+					<Frame name="twUI_FontClear" inherits="twUI_FontTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="twUI_FontRemove" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-25" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</Frame>
+				</Frames>
+			</Frame>
+			
+			 <Button name="twUI_CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="twUI">>
+						<Offset>
+							<AbsDimension x="-5" y="-5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if ( ColorPickerFrame:IsVisible() ) then
+							ColorPickerFrame:Hide();
+						end
+						twUI_Close();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="twUI_SaveButton" inherits="GameMenuButtonTemplate" text="Close">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="twUI">
+						<Offset>
+							<AbsDimension x="-15" y="15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if ( ColorPickerFrame:IsVisible() ) then
+							ColorPickerFrame:Hide();
+						end
+						twUI_Close();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="twUI_ResetButton" inherits="GameMenuButtonTemplate" text="Defaults">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="twUI">
+						<Offset>
+							<AbsDimension x="15" y="15"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						twUI_Reset();
+					</OnClick>
+				</Scripts>
+			</Button>
+
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				twUI_OnLoad();
+			</OnLoad>
+			<OnShow>
+				twUI_OnShow();
+			</OnShow>
+		</Scripts>
+	</Frame>
+	
+</Ui>
